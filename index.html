@@ -36,20 +36,28 @@ const SETS = [{"set":1,"items":[{"w":["What","time","you","get","up?"],"b":[2],"
 const LABEL = ['상위 90%','상위 80%','상위 70%','상위 60%','상위 50%','상위 40%','상위 30%','상위 20%','상위 10%','상위 3%'];
 const app = document.getElementById('app'); let S=null, st=0, res=[];
 const rs = u => { try { history.replaceState(null,'',u); } catch(e){} };
+let AC=null; let SND = true; try { SND = localStorage.getItem('gtSnd')!=='off'; } catch(e){}
+function tone(f,t0,d,type,vol){ const o=AC.createOscillator(), g=AC.createGain(); o.type=type; o.frequency.setValueAtTime(f,AC.currentTime+t0); g.gain.setValueAtTime(0.0001,AC.currentTime+t0); g.gain.exponentialRampToValueAtTime(vol,AC.currentTime+t0+0.015); g.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+t0+d); o.connect(g); g.connect(AC.destination); o.start(AC.currentTime+t0); o.stop(AC.currentTime+t0+d+0.05); }
+function sfx(kind){ if(!SND) return; try { AC = AC || new (window.AudioContext||window.webkitAudioContext)(); if (AC.state==='suspended') AC.resume();
+  if (kind==='ok') { tone(880,0,0.18,'sine',0.35); tone(1318.5,0.11,0.35,'sine',0.35); }
+  else if (kind==='no') { tone(196,0,0.22,'square',0.12); tone(146.8,0.18,0.4,'square',0.12); }
+  else if (kind==='win') { [523.3,659.3,784,1046.5].forEach((f,i)=>tone(f,i*0.12,i===3?0.6:0.2,'triangle',0.3)); } } catch(e){} }
+function sndBtn(){ return '<button id="snd" onclick="togSnd()" style="float:right;background:#26305a;color:#cfd6ee;border:0;border-radius:20px;padding:6px 12px;font-family:inherit;font-weight:800;font-size:12px;cursor:pointer">소리 '+(SND?'켜짐':'꺼짐')+'</button>'; }
+function togSnd(){ SND=!SND; try{localStorage.setItem('gtSnd',SND?'on':'off');}catch(e){} const b=document.getElementById('snd'); if(b) b.textContent='소리 '+(SND?'켜짐':'꺼짐'); if(SND) sfx('ok'); }
 const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const done = () => { try { return JSON.parse(localStorage.getItem('gtDone10')||'{}'); } catch(e){ return {}; } };
 function stairs(cur){ return '<div class="stairs">'+LABEL.map((l,i)=>{ const h=46+i*9; let c=''; if (i===cur) c='on'; else if (res[i]!==undefined) c = res[i]?'ok':'no'; return '<div class="st '+c+'" style="height:'+h+'px">'+(i+1)+'<small>'+l.replace('상위 ','')+'</small></div>'; }).join('')+'</div>'; }
 function home(){ const d=done(); rs(location.pathname); app.innerHTML='<span class="pill">10단계 문법 테스트</span><h1>영어 문법,<br>당신은 상위 몇 %?</h1><div class="sub">틀린 곳을 찾으면 다음 단계로! 한 번 틀리면 거기서 끝나요.<br>세트를 골라 어디까지 오르는지 도전해 보세요.<br>유튜브 계단 쇼츠 #번호 = Set 번호예요.</div><a class="btn y" href="?set='+SETS[0].set+'" onclick="go('+SETS[0].set+');return false;">Set '+SETS[0].set+'부터 시작</a><div class="q" style="color:#aab4d4;margin-top:22px">세트 고르기 (초록색은 푼 세트)</div><div class="grid">'+SETS.map(s=>'<a href="?set='+s.set+'" class="'+(d[s.set]!==undefined?'done':'')+'" onclick="go('+s.set+');return false;">'+s.set+'</a>').join('')+'</div><div class="ft">곽승범 원장 · 유튜브 영어 혁명</div>'; window.scrollTo(0,0); }
 function go(n){ S=SETS.find(s=>s.set===n); if(!S) return home(); rs('?set='+n); st=0; res=[]; stage(); }
-function head(){ return '<span class="pill">10단계 문법 테스트</span><span class="setno">Set '+S.set+'</span>'; }
+function head(){ return sndBtn()+'<span class="pill">10단계 문법 테스트</span><span class="setno">Set '+S.set+'</span>'; }
 function stage(){ const it=S.items[st]; const last=st===9;
   app.innerHTML = head()+stairs(st)+'<div class="stage '+(last?'last':'')+'">'+(last?'마지막 10단계 · 상위 3%':(st+1)+'단계 · '+LABEL[st])+'</div><div class="card"><div class="q">틀린 곳을 눌러 주세요</div><div class="chips">'+it.w.map((w,i)=>'<button class="chip" data-i="'+i+'">'+esc(w)+'</button>').join('')+'</div><div id="r1" class="res"></div></div><div id="r2"></div>';
-  app.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{ if (res[st]!==undefined) return; const i=+b.dataset.i; const ok=it.b.includes(i); res[st]=ok; if(!ok) b.classList.add('pick'); it.b.forEach(j=>app.querySelector('.chip[data-i="'+j+'"]').classList.add('bad')); const r=document.getElementById('r1'); r.className='res '+(ok?'o':'x'); r.textContent= ok?'정답! 틀린 곳을 찾았어요.':'아쉬워요. 빨간 부분이 틀린 곳이에요.';
+  app.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{ if (res[st]!==undefined) return; const i=+b.dataset.i; const ok=it.b.includes(i); res[st]=ok; sfx(ok?'ok':'no'); if(!ok) b.classList.add('pick'); it.b.forEach(j=>app.querySelector('.chip[data-i="'+j+'"]').classList.add('bad')); const r=document.getElementById('r1'); r.className='res '+(ok?'o':'x'); r.textContent= ok?'정답! 틀린 곳을 찾았어요.':'아쉬워요. 빨간 부분이 틀린 곳이에요.';
     document.getElementById('r2').innerHTML='<div class="ans"><div class="t">바른 문장</div><b>'+esc((it.r||it.w).join(' '))+'</b><div style="margin-top:6px;font-size:13.5px">'+esc(it.c)+'</div></div><div class="why">'+it.y.map(esc).join('<br>')+'</div><button class="btn y" onclick="next()">'+(!ok||st===9?'결과 보기':'다음 단계로')+'</button>'; });
   window.scrollTo(0,0); }
 function next(){ if (res[st]===false) return result(); st++; if (st<10) stage(); else result(); }
 function pct(s){ return s===0 ? '1단계 탈락' : LABEL[s-1]; }
-function result(){ let s=0; while (s<10 && res[s]===true) s++; const p=pct(s); const failed = s<10; window.__result={s,p,set:S.set}; const d=done(); d[S.set]=s; try{localStorage.setItem('gtDone10',JSON.stringify(d));}catch(e){}
+function result(){ let s=0; while (s<10 && res[s]===true) s++; const p=pct(s); const failed = s<10; if (!failed) setTimeout(()=>sfx('win'),150); window.__result={s,p,set:S.set}; const d=done(); d[S.set]=s; try{localStorage.setItem('gtDone10',JSON.stringify(d));}catch(e){}
   const nx = SETS.find(x=>x.set>S.set);
   app.innerHTML = head()+'<div class="score">'+(s===10?'10단계 모두 통과!':s===0?'아쉽게 1단계에서 멈췄어요':s+'단계까지 통과, '+(s+1)+'단계에서 멈췄어요')+'</div><div class="big">'+(s===0?'다시 도전!':'당신은 '+p)+'</div>'+stairs(-1)+LABEL.map((l,i)=>'<div class="row"><span>'+(i+1)+'단계 · '+l+'</span><span>'+(res[i]===true?'○ 통과':res[i]===false?'✕ 여기서 멈춤':'–')+'</span></div>').join('')+
   (failed?'<a class="btn y" href="?set='+S.set+'" onclick="go('+S.set+');return false;">같은 세트 다시 도전</a>':'')+'<button class="btn '+(failed?'g':'y')+'" onclick="share()">결과 공유하기</button>'+(nx?'<a class="btn g" href="?set='+nx.set+'" onclick="go('+nx.set+');return false;">다음 세트 (Set '+nx.set+') 도전</a>':'')+'<a class="btn g" href="./" onclick="home();return false;">다른 세트 고르기</a>'+
