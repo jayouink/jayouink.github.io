@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단어 꼬리 물기 테스트 | 20문제, 당신은 상위 몇 %?</title>
+<meta name="description" content="단어 꼬리 물기 쇼츠에 나온 단어 20문제. 끝까지 풀면 자동 채점하고 상위 몇 %인지 알려 드려요. 곽승범 원장">
+<meta property="og:type" content="website"><meta property="og:title" content="단어 꼬리 물기 테스트, 당신은 상위 몇 %?">
+<meta property="og:description" content="20문제 · 약 3분 · 끝까지 풀면 자동 채점 · 단어마다 '왜 이 뜻인지' 해설">
+<meta property="og:image" content="https://jayouink.github.io/og_vocab.png"><meta property="og:url" content="https://jayouink.github.io/vocab.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent} body{margin:0;background:#1b2340;color:#fff;font-family:Pretendard,system-ui,sans-serif}
+.wrap{max-width:480px;margin:0 auto;padding:22px 18px 44px;min-height:100vh}
+.pill{display:inline-block;background:#FFD54A;color:#111;font-weight:800;font-size:13px;padding:5px 12px;border-radius:20px}
+h1{font-size:29px;line-height:1.3;margin:12px 0 6px;font-weight:900} .sub{color:#aab4d4;font-size:14.5px;line-height:1.6}
+.box{background:#26305a;border-radius:16px;padding:16px;margin-top:16px;font-size:14px;line-height:1.65;color:#dfe4f5} .box b{color:#fff}
+.lvtbl{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px} .lvtbl td{padding:7px 4px;border-bottom:1px solid #34407a} .lvtbl td:last-child{text-align:right;color:#aab4d4}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:16px;font-size:17px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:12px;text-align:center;text-decoration:none}
+.btn.y{background:#FFD54A;color:#111} .btn.g{background:#26305a;color:#fff} .btn:disabled{opacity:.45;cursor:default}
+.row2{display:flex;gap:10px} .row2 .btn{flex:1}
+.prog{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:800;color:#cfd6ee;margin-top:16px}
+.bar{height:8px;background:#2a3462;border-radius:5px;margin-top:8px;overflow:hidden} .bar i{display:block;height:100%;background:#FFD54A;border-radius:5px;transition:width .25s}
+.tag{display:inline-block;font-size:12px;font-weight:800;padding:3px 9px;border-radius:12px;margin-left:6px} .t1{background:#2f6f52;color:#d5f5e3} .t2{background:#2f5a8f;color:#dbe8ff} .t3{background:#7a3a52;color:#ffe0ea} .t4{background:#FFD54A;color:#111}
+.card{background:#fff;color:#1b2340;border-radius:16px;padding:18px 14px;margin-top:14px}
+.q{font-size:13px;color:#6b7290;font-weight:700;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:7px} .chip{border:2px solid #d9dceb;background:#f6f7fb;border-radius:10px;padding:9px 12px;font-size:19px;font-weight:700;cursor:pointer;color:#1b2340;font-family:inherit}
+.chip.pick{border-color:#2f6fed;background:#e8efff;color:#1d4fc4}
+.skip{background:none;border:0;color:#8a93b8;font-family:inherit;font-size:13.5px;font-weight:700;margin-top:12px;cursor:pointer;text-decoration:underline}
+.skip.on{color:#FFD54A}
+.dots{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin-top:14px} .dots span{height:8px;border-radius:4px;background:#2a3462} .dots span.a{background:#7d87ad} .dots span.c{background:#FFD54A}
+.score{font-size:16px;font-weight:800;margin-top:14px;color:#cfd6ee} .big{font-size:46px;font-weight:900;margin:4px 0 2px;color:#FFD54A} .lvname{font-size:21px;font-weight:900}
+.lvbars{display:flex;align-items:flex-end;gap:5px;margin:18px 0 6px} .lvbars div{flex:1;border-radius:9px;background:#2a3462;display:flex;flex-direction:column;justify-content:center;align-items:center;font-weight:900;font-size:15px} .lvbars small{font-size:10px;font-weight:700;color:#cfd6ee} .lvbars div.on{background:#FFD54A;color:#111} .lvbars div.on small{color:#111}
+h3{font-size:16px;margin:24px 0 8px;color:#FFD54A}
+.meter{margin:9px 0} .meter .lb{display:flex;justify-content:space-between;font-size:13.5px;font-weight:700;margin-bottom:5px} .meter .tr{height:10px;background:#2a3462;border-radius:6px;overflow:hidden} .meter .tr i{display:block;height:100%;border-radius:6px}
+.rv{background:#26305a;border-radius:14px;padding:12px 13px;margin-top:9px;font-size:14px;line-height:1.55}
+.rv .h{display:flex;justify-content:space-between;font-weight:800;font-size:13px;color:#aab4d4} .rv .s{font-size:15.5px;font-weight:700;margin-top:6px;color:#fff} .rv .s s{color:#ff8a80} .rv .ok{color:#7be0a8;font-weight:800;margin-top:6px} .rv .y{color:#cfd6ee;font-size:13px;margin-top:4px}
+.o{color:#7be0a8} .x{color:#ff8a80}
+a.lk{color:#FFD54A;font-weight:800;text-decoration:none} .ft{text-align:center;color:#7d87ad;font-size:12px;margin-top:26px}
+</style>
+<style>.opts{display:grid;gap:9px;margin-top:4px}.opt{border:2px solid #d9dceb;background:#f6f7fb;border-radius:12px;padding:13px 14px;font-size:18px;font-weight:700;cursor:pointer;color:#1b2340;font-family:inherit;text-align:left}.opt.pick{border-color:#2f6fed;background:#e8efff;color:#1d4fc4}.qq{font-size:24px;font-weight:900;color:#1b2340;margin:4px 0 14px;line-height:1.35}.qq .r{background:linear-gradient(transparent 55%,#FFD54A 55%)}.kind{font-size:13px;color:#6b7290;font-weight:700;margin-bottom:6px}</style>
+</head><body><div class="wrap" id="app"></div>
+<script>
+const QS = [{"t":"e2k","q":"break","a":"깨다","opts":["깨다","손잡이","두통","앞으로"],"root":"break","why":"기본 뜻","n":1},{"t":"e2k","q":"head","a":"머리","opts":["머리","손","깨다","제목"],"root":"head","why":"기본 뜻","n":2},{"t":"e2k","q":"hand","a":"손","opts":["손","발","머리","마음"],"root":"hand","why":"기본 뜻","n":3},{"t":"e2k","q":"breakfast의 fast","a":"굶다 · 단식","opts":["굶다 · 단식","빠르다","단단한","마지막"],"root":"break","why":"fast에는 \"굶다, 단식\"이라는 뜻도 있어요. 밤새 굶은(fast) 걸 깨는(break) 식사 = breakfast","n":4},{"t":"k2e","q":"아침 식사","a":"breakfast","opts":["breakfast","breakthrough","outbreak","heartbreak"],"root":"break","why":"밤새 굶은(fast) 걸 깨는(break) 식사","n":5},{"t":"k2e","q":"두통","a":"headache","opts":["headache","headline","overhead","ahead"],"root":"head","why":"머리(head) + 아픔(ache)","n":6},{"t":"k2e","q":"편리한","a":"handy","opts":["handy","handle","handout","secondhand"],"root":"hand","why":"손(hand)에 딱 맞는 → 편리한","n":7},{"t":"e2k","q":"handle","a":"다루다 · 손잡이","opts":["다루다 · 손잡이","제출하다","유인물","중고의"],"root":"hand","why":"손(hand)으로 다루는 것","n":8},{"t":"e2k","q":"headline","a":"신문 제목","opts":["신문 제목","두통","머리 위의","~로 향하다"],"root":"head","why":"맨 위 머리(head) 줄(line) → 신문 제목","n":9},{"t":"fill","q":"유인물 = hand____","a":"out","opts":["out","in","le","y"],"root":"hand","why":"손에서 손으로 밖으로(out) 나눠 주는 종이 → handout","n":10},{"t":"fill","q":"중고의 = ______hand","a":"second","opts":["second","first","back","over"],"root":"hand","why":"두 번째(second) 손을 거친 → secondhand","n":11},{"t":"fill","q":"머리 위의 = ____head","a":"over","opts":["over","a","fore","sub"],"root":"head","why":"머리(head) 위(over) → overhead (forehead는 이마)","n":12},{"t":"k2e","q":"앞으로 · 앞에","a":"ahead","opts":["ahead","overhead","headache","head for"],"root":"head","why":"머리(head) 쪽으로(a-) → 앞으로","n":13},{"t":"e2k","q":"head for","a":"~로 향하다","opts":["~로 향하다","머리 위의","신문 제목","두통"],"root":"head","why":"머리(head)를 그쪽으로 돌리다 → ~로 향하다","n":14},{"t":"k2e","q":"(숙제·서류를) 제출하다","a":"hand in","opts":["hand in","hand out","handle","handy"],"root":"hand","why":"손(hand)에 넘겨 주다(in) → 제출하다 (hand out은 나눠 주다)","n":15},{"t":"e2k","q":"break the ice","a":"어색함을 깨다","opts":["어색함을 깨다","기록을 깨다","상심","돌파구"],"root":"break","why":"얼음(ice)처럼 얼어붙은 분위기를 깨다","n":16},{"t":"fill","q":"상심 · 실연 = _____break","a":"heart","opts":["heart","out","day","jail"],"root":"break","why":"마음(heart)이 깨짐 → heartbreak (daybreak는 새벽, jailbreak는 탈옥)","n":17},{"t":"k2e","q":"돌파구","a":"breakthrough","opts":["breakthrough","breakfast","break the ice","outbreak"],"root":"break","why":"깨고(break) 뚫고(through) 나감 → 돌파구","n":18},{"t":"fill","q":"(전쟁·병의) 발생 = ___break","a":"out","opts":["out","heart","day","jail"],"root":"break","why":"밖으로(out) 터져 나옴 → outbreak","n":19},{"t":"k2e","q":"기록을 깨다","a":"break a record","opts":["break a record","break the ice","breakthrough","heartbreak"],"root":"break","why":"기록(record)을 깨다(break)","n":20}];
+const TIERS = [[100,'상위 3%','꼬리 물기 마스터! 단어의 뿌리까지 보이는 수준이에요.'],[90,'상위 10%','거의 다 맞혔어요. 단어가 만들어진 원리를 잘 알고 있어요.'],[80,'상위 20%','탄탄해요. 헷갈린 단어만 다시 보면 완벽해요.'],[70,'상위 30%','기본은 충분해요. 뿌리 단어로 뜻을 추측하는 연습을 더 해 보세요.'],[60,'상위 50%','절반 넘게 맞혔어요. 꼬리 물기 쇼츠로 복습하면 금방 올라가요.'],[40,'상위 70%','처음 보는 단어가 많았을 거예요. 뿌리 단어부터 다시 시작해요.'],[0,'','오늘 배운 단어부터 하나씩! 꼬리 물기 쇼츠로 복습해 보세요.']];
+const KIND = {e2k:'영어 → 뜻', k2e:'뜻 → 영어', fill:'빈칸 채우기'};
+const app = document.getElementById('app'); let Q=[], ans=[], cur=0, t0=0;
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store = { get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} } };
+let AC=null; function beep(f,d,v){ try { AC = AC || new (window.AudioContext||window.webkitAudioContext)(); if (AC.state==='suspended') AC.resume(); const o=AC.createOscillator(), g=AC.createGain(); o.type='sine'; o.frequency.value=f; g.gain.setValueAtTime(0.0001,AC.currentTime); g.gain.exponentialRampToValueAtTime(v,AC.currentTime+0.01); g.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+d); o.connect(g); g.connect(AC.destination); o.start(); o.stop(AC.currentTime+d+0.05); } catch(e){} }
+function shuffle(a){ a=a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function tierOf(sc){ for (const t of TIERS) if (sc>=t[0]) return t; return TIERS[TIERS.length-1]; }
+function qText(q){ if (q.t==='e2k') return '<span class="r">'+esc(q.q)+'</span>의 뜻은?'; if (q.t==='k2e') return '"'+esc(q.q)+'"을(를) 영어로?'; return esc(q.q).replace(/_+/, m=>'<span class="r">'+m+'</span>'); }
+function home(){ const last = store.get('vcLast');
+  app.innerHTML = '<span class="pill">단어 꼬리 물기 테스트</span><h1>꼬리를 물면 뜻이 보인다,<br>당신은 상위 몇 %?</h1><div class="sub">단어 꼬리 물기 쇼츠에 나온 단어 20문제예요. 약 3분, 끝까지 풀면 자동 채점하고 단어마다 \'왜 이 뜻인지\' 해설을 보여 드려요.</div>'+
+  (last?'<div class="box">지난 결과: <b>'+last.sc+'점</b>'+(last.top?' · '+esc(last.top):'')+' ('+last.d+')</div>':'')+
+  '<button class="btn y" onclick="start()">테스트 시작하기</button>'+
+  '<div class="box"><b>이렇게 풀어요</b><br>1. 영어 → 뜻, 뜻 → 영어, 빈칸 채우기 세 가지 문제가 나와요.<br>2. 정답은 끝날 때까지 알려 주지 않아요. 이전 문제로 돌아가 바꿀 수 있어요.<br>3. 한 문제 5점, 100점 만점이에요.</div>'+
+  '<div class="box"><b>오늘의 뿌리 단어</b><br>break(깨다) · hand(손) · head(머리)</div>'+
+  '<a class="btn g" href="level.html">영어 문법도 확인! 20문제 레벨 테스트</a><div class="ft">곽승범 원장 · 유튜브 영어 혁명</div>'; window.scrollTo(0,0); }
+function start(){ Q = QS.map(q=>({...q, sh: shuffle(q.opts)})); ans = Q.map(()=>undefined); cur=0; t0=Date.now(); show(); }
+function show(){ const q=Q[cur]; const a=ans[cur];
+  app.innerHTML = '<span class="pill">단어 꼬리 물기 테스트</span><div class="prog"><span>'+(cur+1)+' / '+Q.length+'</span><span style="font-size:12.5px;color:#8a93b8">푼 문제 '+ans.filter(x=>x!==undefined).length+'개</span></div><div class="bar"><i style="width:'+((cur+1)/Q.length*100)+'%"></i></div>'+
+  '<div class="card"><div class="kind">'+KIND[q.t]+'</div><div class="qq">'+qText(q)+'</div><div class="opts">'+q.sh.map((o,i)=>'<button class="opt'+(a===o?' pick':'')+'" data-o="'+esc(o)+'">'+esc(o)+'</button>').join('')+'</div></div>'+
+  '<div class="row2"><button class="btn g" onclick="go(-1)" '+(cur===0?'disabled':'')+'>이전</button><button class="btn y" id="nx" onclick="go(1)" '+(a===undefined?'disabled':'')+'>'+(cur===Q.length-1?'채점하기':'다음')+'</button></div>'+
+  '<div class="dots">'+Q.map((_,i)=>'<span class="'+(i===cur?'c':ans[i]!==undefined?'a':'')+'"></span>').join('')+'</div>';
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ ans[cur]=b.dataset.o; beep(660,0.08,0.12); show(); });
+  window.scrollTo(0,0); }
+function go(d){ if (d>0 && cur===Q.length-1) return result(); cur=Math.max(0,Math.min(Q.length-1,cur+d)); show(); }
+function result(){ const ok = Q.map((q,i)=>ans[i]===q.a); const n=ok.filter(Boolean).length; const sc=n*5; const t=tierOf(sc); const sec=Math.round((Date.now()-t0)/1000);
+  const dt=new Date(); store.set('vcLast',{sc, top:t[1], d:(dt.getMonth()+1)+'/'+dt.getDate()}); window.__result={sc,n,top:t[1]};
+  [523.3,659.3,784].forEach((f,i)=>setTimeout(()=>beep(f,0.25,0.18), i*120));
+  const byR={}; Q.forEach((q,i)=>{ byR[q.root]=byR[q.root]||[0,0]; byR[q.root][1]++; if(ok[i]) byR[q.root][0]++; });
+  const meter=(k,v)=>'<div class="meter"><div class="lb"><span>'+esc(k)+'</span><span>'+v[0]+' / '+v[1]+'</span></div><div class="tr"><i style="width:'+(v[0]/v[1]*100)+'%;background:'+(v[0]===v[1]?'#5fcf96':'#FFD54A')+'"></i></div></div>';
+  app.innerHTML = '<span class="pill">단어 꼬리 물기 테스트 결과</span><div class="score">'+n+' / 20문제 정답 · '+Math.floor(sec/60)+'분 '+(sec%60)+'초</div><div class="big">'+sc+'점</div><div class="lvname">'+(t[1]?'당신은 '+t[1]:'다시 도전!')+'</div>'+
+  '<div class="box" style="margin-top:12px">'+t[2]+'</div><h3>뿌리 단어별 정답</h3>'+Object.entries(byR).map(([k,v])=>meter(k+' 꼬리',v)).join('')+
+  '<button class="btn y" onclick="share()">결과 공유하기</button><button class="btn g" onclick="start()">다시 풀기</button>'+
+  '<h3>문제별 해설</h3>'+Q.map((q,i)=>'<div class="rv"><div class="h"><span>'+(i+1)+'번 · '+KIND[q.t]+'</span><span class="'+(ok[i]?'o':'x')+'">'+(ok[i]?'○ +5점':'✕ 0점')+'</span></div><div class="s">'+esc(q.q)+'</div>'+(ok[i]?'':'<div class="y">내 답: '+esc(ans[i]||'안 풂')+'</div>')+'<div class="ok">→ '+esc(q.a)+'</div><div class="y">'+esc(q.why)+'</div></div>').join('')+
+  '<a class="btn g" href="level.html">영어 문법도 확인! 20문제 레벨 테스트</a>'+
+  '<div class="box">매일 새 영상 ▶ <a class="lk" href="https://www.youtube.com/@THEOPEN_Kwak" target="_blank">유튜브 영어 혁명</a> · <a class="lk" href="https://blog.naver.com/jayouink2" target="_blank">블로그</a> · <a class="lk" href="https://www.instagram.com/jayouink2" target="_blank">인스타그램</a></div><div class="ft">곽승범 원장</div>'; window.scrollTo(0,0); }
+async function share(){ const r=window.__result; const tx='단어 꼬리 물기 테스트 20문제: '+r.sc+'점'+(r.top?', 나는 '+r.top:'')+'! 당신은?'; const u=location.origin+location.pathname; try { if (navigator.share) { await navigator.share({title:'단어 꼬리 물기 테스트', text:tx, url:u}); return; } await navigator.clipboard.writeText(tx+' '+u); alert('결과와 링크를 복사했어요!'); } catch(e){} }
+home();
+</script></body></html>
