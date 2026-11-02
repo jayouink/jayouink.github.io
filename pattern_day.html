@@ -87,6 +87,7 @@ function home(){
   }
   h+=`<a class="btn g" href="${CFG.hub}">전체 Day 1~50 보기</a><a class="btn g" href="${esc(blogBack())}">블로그로 돌아가기</a>`+foot();
   stopAll();app().innerHTML=h;window.scrollTo(0,0);
+  if(MODE==='day'&&new URLSearchParams(location.search).get('listen')){const el=document.querySelector('.pc');if(el)el.scrollIntoView();}
 }
 // ---------- question builders ----------
 function pool(){return PS.flatMap(no=>[no+'_1',no+'_2'])}
@@ -120,7 +121,7 @@ const TNAME={L:'듣고 뜻 고르기',F:'빈칸 채우기',O:'순서대로 누�
 function showQ(){
   stopAll();const q=Q[cur],x=EX(q.id),tot=Q.length;
   let h=`<div class="prog"><span>${label()} · ${cur+1} / ${tot}</span><span>맞힌 수 ${ans.filter(a=>a===1).length}</span></div><div class="bar"><i style="width:${cur/tot*100}%"></i></div><div class="card"><div class="qt">${TNAME[q.t]}</div>`;
-  if(q.t==='L'){h+=`<div class="qk">원어민 음성을 듣고, 알맞은 뜻을 고르세요.</div><button class="big-play" onclick="play('${q.id}')">▶ 듣기 (여러 번 들어도 돼요)</button><div class="opts">`+q.opts.map((o,k)=>`<button class="op" id="op${k}" onclick="pick(${k})"><span class="n">${k+1}</span>${esc(EX(o).ko)}</button>`).join('')+`</div>`;}
+  if(q.t==='L'){h+=`<div class="qk">원어민 음성을 듣고, 알맞은 뜻을 고르세요.</div><button class="big-play" onclick="play('${q.id}')">▶ 소리 듣기</button><div class="opts">`+q.opts.map((o,k)=>`<button class="op" id="op${k}" onclick="pick(${k})"><span class="n">${k+1}</span>${esc(EX(o).ko)}</button>`).join('')+`</div>`;}
   if(q.t==='F'){const s=esc(x.en).replace(esc(x.core),'<span class="blank">?</span>');h+=`<div class="qk">${esc(x.ko)}</div><div class="sent">${s}</div><div class="opts">`+q.opts.map((o,k)=>`<button class="op" id="op${k}" onclick="pick(${k})"><span class="n">${k+1}</span>${esc(o)}</button>`).join('')+`</div>`;}
   if(q.t==='S'){h+=`<div class="qk">${esc(q.sit)}</div><div class="opts">`+q.opts.map((o,k)=>`<button class="op" id="op${k}" onclick="pick(${k})"><span class="n">${k+1}</span>${esc(EX(o).en)}</button>`).join('')+`</div>`;}
   if(q.t==='O'){const rest=x.part?x.en.replace(x.part,'').trim():'';const before=x.part&&x.en.indexOf(x.part)>0;
