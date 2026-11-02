@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>영어회화 단어 25일 챌린지 | 영어 회화 단어 Day 1~25 자동 채점 테스트</title>
+<meta name="description" content="영어 회화 단어 1000, 하루 40단어 25일 챌린지. Day별 20문제, 5일마다 누적 40문제. 큰 글씨, 발음 듣기, 틀린 단어 정리. 곽승범 원장">
+<meta property="og:type" content="website"><meta property="og:title" content="영어회화 단어 25일 챌린지">
+<meta property="og:description" content="영어 회화 단어 하루 40단어 · 20문제 자동 채점 · 큰 글씨 · 발음 듣기">
+<meta property="og:image" content="https://jayouink.github.io/og_talk.png"><meta property="og:url" content="https://jayouink.github.io/talk.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent} body{margin:0;background:#1b2340;color:#fff;font-family:Pretendard,system-ui,sans-serif}
+.wrap{max-width:520px;margin:0 auto;padding:22px 18px 44px;min-height:100vh}
+.pill{display:inline-block;background:#FFD54A;color:#111;font-weight:800;font-size:14px;padding:5px 12px;border-radius:20px}
+h1{font-size:30px;line-height:1.3;margin:12px 0 6px;font-weight:900} .sub{color:#aab4d4;font-size:16px;line-height:1.6}
+.box{background:#26305a;border-radius:16px;padding:16px;margin-top:16px;font-size:15.5px;line-height:1.7;color:#dfe4f5} .box b{color:#fff}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:17px;font-size:18px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:12px;text-align:center;text-decoration:none}
+.btn.y{background:#FFD54A;color:#111} .btn.g{background:#26305a;color:#fff}
+h3{font-size:18px;margin:26px 0 4px;color:#FFD54A} .hint{color:#aab4d4;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:10px}
+.grid a{display:block;background:#26305a;border-radius:11px;padding:10px 2px 8px;text-align:center;color:#fff;text-decoration:none;font-weight:800;font-size:16px;line-height:1.25}
+.grid a small{display:block;font-size:11.5px;color:#8a93b8;font-weight:700;margin-top:2px}
+.grid a.done{background:#2f6f52} .grid a.done small{color:#d5f5e3}
+.grid a.set{background:#3a3270} .grid a.set.done{background:#2f6f52}
+.blk{font-size:13.5px;color:#cfd6ee;font-weight:800;margin:16px 0 0}
+.stat{display:flex;gap:10px;margin-top:14px} .stat div{flex:1;background:#26305a;border-radius:14px;padding:12px;text-align:center} .stat b{display:block;font-size:26px;color:#FFD54A}
+.sub{font-size:18px} .grid a{font-size:17px}
+.ft{text-align:center;color:#7d87ad;font-size:13px;margin-top:28px;line-height:1.7}
+</style></head>
+<body><div class="wrap" id="app"></div>
+<script>
+const CFG=/*CFG*/{"key":"tw","data":"talk_words.json","posts":"talk_posts.json","hub":"talk.html","self":"talk_day.html","cat":"https://blog.naver.com/jayouink2/224453079323","days":25,"perDay":40,"dayQ":20,"setDays":5,"setQ":40,"name":"영어회화 단어","series":"영어회화 단어 25일 챌린지","goal":"영어회화 단어 1,000개","foot":"영어 회화 단어 1000 · 블로그 무료 PDF 단어장 Day 1~25와 같은 구성","time":"아침 9시","v":1,"intro":"블로그 무료 PDF 단어장(영어 회화 단어 1000)의 Day 1~25와 같은 구성이에요. 원어민 대화에 가장 자주 나오는 단어부터, 하루 40단어씩. 글씨가 크고, 누르면 발음도 들려 드려요. 천천히 하셔도 괜찮아요.","h1":"영어회화 단어 1000<br>하루 40단어, 25일 완성"}/*END*/;
+const S=CFG.setDays;let POSTS={cat:CFG.cat};
+function ls(k){try{return JSON.parse(localStorage.getItem(k)||'null')||{}}catch(e){return {}}}
+function render(){
+  const D=ls(CFG.key+'Day'),SS=ls(CFG.key+'Set'),nd=Object.keys(D).length;
+  let next=1;for(let d=1;d<=CFG.days;d++){if(D[d]==null){next=d;break}}
+  let h=`<span class="pill">${CFG.series}</span><h1>${CFG.h1}</h1>
+  <p class="sub">${CFG.intro}</p>
+  <div class="stat"><div><b>${nd}</b>완료한 Day</div><div><b>${Object.keys(SS).length}</b>완료한 세트</div></div>
+  <a class="btn y" href="${CFG.self}?day=${next}">Day ${next} 풀기 ▶</a>
+  <a class="btn g" href="${POSTS.cat}">블로그 연재 보기 (매일 ${CFG.time} 새 Day)</a>
+  <h3>Day 1~${CFG.days}</h3><div class="hint">초록색 = 완료한 Day (숫자는 최고 점수). 이 기기에만 저장돼요.</div>`;
+  for(let k=1;k<=CFG.days/S;k++){
+    h+=`<div class="blk">Day ${(k-1)*S+1}~${k*S}</div><div class="grid">`;
+    for(let d=(k-1)*S+1;d<=k*S;d++)h+=`<a href="${CFG.self}?day=${d}" class="${D[d]!=null?'done':''}">Day ${d}<small>${D[d]!=null?D[d]+'점':CFG.perDay+'단어'}</small></a>`;
+    h+=`</div>`;
+  }
+  h+=`<h3>누적 세트 1~${CFG.days/S}</h3><div class="hint">${S}일마다 ${CFG.perDay*S}단어 중 ${CFG.setQ}문제. 오래 기억했는지 확인해요.</div><div class="grid">`;
+  for(let k=1;k<=CFG.days/S;k++)h+=`<a class="set ${SS[k]!=null?'done':''}" href="${CFG.self}?set=${k}">세트 ${k}<small>${SS[k]!=null?SS[k]+'점':'Day '+((k-1)*S+1)+'~'+k*S}</small></a>`;
+  h+=`</div><div class="ft">${CFG.foot}<br>곽승범 원장 · 유튜브 영어 혁명</div>`;
+  document.getElementById('app').innerHTML=h;
+}
+render();
+fetch(CFG.posts+'?t='+Date.now()).then(r=>r.json()).then(j=>{POSTS=j;render()}).catch(()=>{});
+</script></body></html>
