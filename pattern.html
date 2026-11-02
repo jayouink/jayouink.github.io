@@ -27,7 +27,7 @@ h3{font-size:22px;margin:28px 0 4px;color:#FFD54A} .hint{color:#c3cbe6;font-size
 <script>
 const CFG={key:'pt',posts:'pattern_posts.json',self:'pattern_day.html',days:50,setDays:10,time:'아침 9시 30분'};
 const LV=d=>d<=20?'초급':d<=37?'중급':d===38?'중급·고급':'고급';
-let POSTS={cat:'https://blog.naver.com/jayouink2'};
+let POSTS={cat:'https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=30'};
 function ls(k){try{return JSON.parse(localStorage.getItem(k)||'null')||{}}catch(e){return {}}}
 function render(){
   const D=ls(CFG.key+'Day'),SS=ls(CFG.key+'Set'),nd=Object.keys(D).length;

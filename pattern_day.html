@@ -46,7 +46,7 @@ h3{font-size:22px;margin:28px 0 8px;color:#FFD54A}
 </style></head>
 <body><div class="wrap" id="app"><p class="sub">불러오는 중...</p></div>
 <script>
-const CFG={key:'pt',data:'pattern_data.json',posts:'pattern_posts.json',hub:'pattern.html',self:'pattern_day.html',cat:'https://blog.naver.com/jayouink2',days:50,per:2,setDays:10,time:'아침 9시 30분',v:1};
+const CFG={key:'pt',data:'pattern_data.json',posts:'pattern_posts.json',hub:'pattern.html',self:'pattern_day.html',cat:'https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=30',days:50,per:2,setDays:10,time:'아침 9시 30분',v:1};
 let D=null,POSTS={days:{},sets:{},cat:CFG.cat},MODE='day',N=1,PS=[],Q=[],cur=0,ans=[],RETRY=false,AUD=null;
 const $=s=>document.querySelector(s),app=()=>$('#app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
