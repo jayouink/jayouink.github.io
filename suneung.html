@@ -26,27 +26,28 @@ h3{font-size:18px;margin:26px 0 4px;color:#FFD54A} .hint{color:#aab4d4;font-size
 </style></head>
 <body><div class="wrap" id="app"></div>
 <script>
-let POSTS={cat:'https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=0'};
+const CFG=/*CFG*/{"key":"sn","data":"suneung_words.json","posts":"suneung_posts.json","hub":"suneung.html","self":"suneung_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=23","days":100,"perDay":30,"dayQ":20,"setDays":10,"setQ":50,"name":"수능 영단어","series":"수능 필수 어휘 100일 챌린지","goal":"수능 필수 어휘 3,000개","foot":"수능 필수 어휘 3000 · 평가원 수능·모의평가 30회분 출현 단어 중심","intro":"평가원 수능·모의평가 30회분에 자주 나온 단어 3,000개를 Day 1~100으로 나눴어요. 하루 15분, 오늘 Day를 풀고 블로그 댓글에 점수를 남겨 주세요.","h1":"수능 영단어 3000<br>하루 30단어, 100일 완성","time":"아침 7시"}/*END*/;
+const S=CFG.setDays;let POSTS={cat:CFG.cat};
 function ls(k){try{return JSON.parse(localStorage.getItem(k)||'null')||{}}catch(e){return {}}}
 function render(){
-  const D=ls('snDay'),S=ls('snSet'),nd=Object.keys(D).length;
-  let next=1;for(let d=1;d<=100;d++){if(D[d]==null){next=d;break}}
-  let h=`<span class="pill">수능 필수 어휘 100일 챌린지</span><h1>수능 영단어 3000<br>하루 30단어, 100일 완성</h1>
-  <p class="sub">평가원 수능·모의평가 30회분에 자주 나온 단어 3,000개를 Day 1~100으로 나눴어요. 하루 15분, 오늘 Day를 풀고 블로그 댓글에 점수를 남겨 주세요.</p>
-  <div class="stat"><div><b>${nd}</b>완료한 Day</div><div><b>${Object.keys(S).length}</b>완료한 세트</div></div>
-  <a class="btn y" href="suneung_day.html?day=${next}">Day ${next} 풀기 ▶</a>
-  <a class="btn g" href="${POSTS.cat}">블로그 연재 보기 (매일 아침 7시 새 Day)</a>
-  <h3>Day 1~100</h3><div class="hint">초록색 = 완료한 Day (숫자는 최고 점수). 이 기기에만 저장돼요.</div>`;
-  for(let k=1;k<=10;k++){
-    h+=`<div class="blk">Day ${(k-1)*10+1}~${k*10}</div><div class="grid">`;
-    for(let d=(k-1)*10+1;d<=k*10;d++)h+=`<a href="suneung_day.html?day=${d}" class="${D[d]!=null?'done':''}">Day ${d}<small>${D[d]!=null?D[d]+'점':'30단어'}</small></a>`;
+  const D=ls(CFG.key+'Day'),SS=ls(CFG.key+'Set'),nd=Object.keys(D).length;
+  let next=1;for(let d=1;d<=CFG.days;d++){if(D[d]==null){next=d;break}}
+  let h=`<span class="pill">${CFG.series}</span><h1>${CFG.h1}</h1>
+  <p class="sub">${CFG.intro}</p>
+  <div class="stat"><div><b>${nd}</b>완료한 Day</div><div><b>${Object.keys(SS).length}</b>완료한 세트</div></div>
+  <a class="btn y" href="${CFG.self}?day=${next}">Day ${next} 풀기 ▶</a>
+  <a class="btn g" href="${POSTS.cat}">블로그 연재 보기 (매일 ${CFG.time} 새 Day)</a>
+  <h3>Day 1~${CFG.days}</h3><div class="hint">초록색 = 완료한 Day (숫자는 최고 점수). 이 기기에만 저장돼요.</div>`;
+  for(let k=1;k<=CFG.days/S;k++){
+    h+=`<div class="blk">Day ${(k-1)*S+1}~${k*S}</div><div class="grid">`;
+    for(let d=(k-1)*S+1;d<=k*S;d++)h+=`<a href="${CFG.self}?day=${d}" class="${D[d]!=null?'done':''}">Day ${d}<small>${D[d]!=null?D[d]+'점':CFG.perDay+'단어'}</small></a>`;
     h+=`</div>`;
   }
-  h+=`<h3>누적 세트 1~10</h3><div class="hint">10일마다 300단어 중 50문제. 오래 기억했는지 확인해요.</div><div class="grid">`;
-  for(let k=1;k<=10;k++)h+=`<a class="set ${S[k]!=null?'done':''}" href="suneung_day.html?set=${k}">세트 ${k}<small>${S[k]!=null?S[k]+'점':'Day '+((k-1)*10+1)+'~'+k*10}</small></a>`;
-  h+=`</div><div class="ft">수능 필수 어휘 3000 · 평가원 수능·모의평가 30회분 출현 단어 중심<br>곽승범 원장 · 유튜브 영어 혁명</div>`;
+  h+=`<h3>누적 세트 1~${CFG.days/S}</h3><div class="hint">${S}일마다 ${CFG.perDay*S}단어 중 ${CFG.setQ}문제. 오래 기억했는지 확인해요.</div><div class="grid">`;
+  for(let k=1;k<=CFG.days/S;k++)h+=`<a class="set ${SS[k]!=null?'done':''}" href="${CFG.self}?set=${k}">세트 ${k}<small>${SS[k]!=null?SS[k]+'점':'Day '+((k-1)*S+1)+'~'+k*S}</small></a>`;
+  h+=`</div><div class="ft">${CFG.foot}<br>곽승범 원장 · 유튜브 영어 혁명</div>`;
   document.getElementById('app').innerHTML=h;
 }
 render();
-fetch('suneung_posts.json?t='+Date.now()).then(r=>r.json()).then(j=>{POSTS=j;render()}).catch(()=>{});
+fetch(CFG.posts+'?t='+Date.now()).then(r=>r.json()).then(j=>{POSTS=j;render()}).catch(()=>{});
 </script></body></html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>중등 영단어 50일 챌린지 | Day 테스트 자동 채점</title>
+<meta name="description" content="중등 필수 영단어 1000, 하루 20단어 50일 챌린지. Day별 15문제, 10일마다 누적 40문제. 바로 채점, 발음 듣기, 틀린 단어 정리. 곽승범 원장">
+<meta property="og:type" content="website"><meta property="og:title" content="중등 영단어 50일 챌린지, 오늘 Day 테스트">
+<meta property="og:description" content="중등 필수 영단어 하루 20단어 · 15문제 자동 채점 · 발음 듣기 · 틀린 단어 정리">
+<meta property="og:image" content="https://jayouink.github.io/og_middle.png"><meta property="og:url" content="https://jayouink.github.io/middle_day.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent} body{margin:0;background:#1b2340;color:#fff;font-family:Pretendard,system-ui,sans-serif}
+.wrap{max-width:520px;margin:0 auto;padding:22px 18px 44px;min-height:100vh}
+.pill{display:inline-block;background:#FFD54A;color:#111;font-weight:800;font-size:14px;padding:5px 12px;border-radius:20px}
+h1{font-size:30px;line-height:1.3;margin:12px 0 6px;font-weight:900} .sub{color:#aab4d4;font-size:16px;line-height:1.6}
+.box{background:#26305a;border-radius:16px;padding:16px;margin-top:16px;font-size:15.5px;line-height:1.7;color:#dfe4f5} .box b{color:#fff}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:17px;font-size:18px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:12px;text-align:center;text-decoration:none}
+.btn.y{background:#FFD54A;color:#111} .btn.g{background:#26305a;color:#fff} .btn.o{background:transparent;color:#FFD54A;border:2px solid #FFD54A}
+.prog{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:800;color:#cfd6ee;margin-top:16px}
+.bar{height:8px;background:#2a3462;border-radius:5px;margin-top:8px;overflow:hidden} .bar i{display:block;height:100%;background:#FFD54A;border-radius:5px;transition:width .25s}
+.card{background:#fff;color:#1b2340;border-radius:18px;padding:22px 16px 18px;margin-top:14px}
+.qt{font-size:14px;color:#6b7290;font-weight:800} .qw{font-size:40px;font-weight:900;margin:10px 0 4px;letter-spacing:-.5px;word-break:break-word} .qk{font-size:26px;font-weight:900;margin:12px 0 6px;line-height:1.35}
+.pos{display:inline-block;font-size:13px;font-weight:800;color:#2f5a8f;background:#e3ecff;border-radius:10px;padding:3px 9px;margin-right:6px}
+.spk{border:0;background:#eef1fa;color:#1b2340;border-radius:20px;padding:8px 14px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:6px}
+.opts{margin-top:16px;display:grid;gap:10px}
+.op{border:2px solid #d9dceb;background:#f6f7fb;border-radius:14px;padding:15px 14px;font-size:19px;font-weight:700;cursor:pointer;color:#1b2340;font-family:inherit;text-align:left;line-height:1.4}
+.op:disabled{cursor:default} .op.good{border-color:#1fa968;background:#dff7ea;color:#0d6e41} .op.bad{border-color:#e0443e;background:#fde6e4;color:#b3261e}
+.op .n{display:inline-block;width:26px;color:#8a93b8;font-weight:900}
+.skip{background:none;border:0;color:#6b7290;font-family:inherit;font-size:16px;font-weight:800;margin-top:14px;cursor:pointer;text-decoration:underline;padding:6px 0}
+.fb{margin-top:14px;border-top:1px solid #e3e5f0;padding-top:12px;font-size:16px;line-height:1.6}
+.fb .v{font-size:19px;font-weight:900} .fb .v.o{color:#1fa968} .fb .v.x{color:#e0443e} .fb .ans{font-size:18px;font-weight:800;margin-top:4px}
+.score{font-size:17px;font-weight:800;margin-top:14px;color:#cfd6ee} .big{font-size:56px;font-weight:900;margin:4px 0 2px;color:#FFD54A} .msg{font-size:21px;font-weight:900}
+h3{font-size:18px;margin:26px 0 8px;color:#FFD54A}
+.wl{background:#26305a;border-radius:14px;padding:12px 14px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.wl .w{font-size:20px;font-weight:900} .wl .m{font-size:15px;color:#dfe4f5;margin-top:3px;line-height:1.5} .wl button{flex:none;border:0;background:#33407a;color:#fff;border-radius:16px;padding:7px 11px;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer}
+.tbl{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px} .tbl td{padding:9px 4px;border-bottom:1px solid #34407a;vertical-align:top;line-height:1.45} .tbl td.e{font-weight:900;font-size:17px;white-space:nowrap} .tbl td.p{color:#aab4d4;font-size:13px;white-space:nowrap}
+a.lk{color:#FFD54A;font-weight:800;text-decoration:none} .ft{text-align:center;color:#7d87ad;font-size:13px;margin-top:28px;line-height:1.7}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px} .row2 .btn{margin-top:10px;font-size:16px;padding:15px 8px}
+</style></head>
+<body><div class="wrap" id="app"><p class="sub">불러오는 중...</p></div>
+<script>
+const CFG=/*CFG*/{"key":"md","data":"middle_words.json","posts":"middle_posts.json","hub":"middle.html","self":"middle_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=24","days":50,"perDay":20,"dayQ":15,"setDays":10,"setQ":40,"name":"중등 영단어","series":"중등 필수 영단어 50일 챌린지","goal":"중등 필수 영단어 1,000개","foot":"중등 필수 영단어 1000 · 교육과정 기본 어휘 중심","time":"아침 7시 30분"}/*END*/;
+const HUB=CFG.hub, CAT_DEFAULT=CFG.cat, S=CFG.setDays;
+let RETRY=false,WORDS=[], POSTS={days:{},sets:{},cat:CAT_DEFAULT}, MODE='day', N=1, IDS=[], Q=[], cur=0, ans=[], snd=true;
+const $=s=>document.querySelector(s), app=()=>$('#app');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const POSN={'명':'명사','동':'동사','형':'형용사','부':'부사','전':'전치사','접':'접속사'};
+function ls(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||'null');localStorage.setItem(k,JSON.stringify(v));}catch(e){return null}}
+function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a}
+function W(i){const x=WORDS[i];return {i,w:x[0],pos:x[1],m:x[2],q:x[3],qp:x[4],d:x[5],mark:x[6],dx:x[7]}}
+let VOICE=null; function pickVoice(){try{const vs=speechSynthesis.getVoices();VOICE=vs.find(v=>v.lang==='en-US'&&/Samantha|Google US|Aria|Jenny|Zira/i.test(v.name))||vs.find(v=>v.lang==='en-US')||vs.find(v=>/^en/.test(v.lang))||null;}catch(e){}}
+try{speechSynthesis.onvoiceschanged=pickVoice;pickVoice();}catch(e){}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(VOICE)u.voice=VOICE;u.rate=.9;speechSynthesis.speak(u);}catch(e){}}
+function blogDay(d){return (POSTS.days&&POSTS.days[d])||POSTS.cat||CAT_DEFAULT}
+function blogBack(){return MODE==='day'?blogDay(N):((POSTS.sets&&POSTS.sets[N])||blogDay(N*S))}
+function label(){return MODE==='day'?`Day ${N}`:`누적 세트 ${N}`}
+async function init(){
+  const p=new URLSearchParams(location.search);
+  if(p.get('set')){MODE='set';N=Math.min(CFG.days/S,Math.max(1,parseInt(p.get('set'))||1));} else {MODE='day';N=Math.min(CFG.days,Math.max(1,parseInt(p.get('day'))||1));}
+  try{const [a,b]=await Promise.all([fetch(CFG.data).then(r=>r.json()),fetch(CFG.posts+'?t='+Date.now()).then(r=>r.json()).catch(()=>null)]);WORDS=a.words;if(b)POSTS=b;}catch(e){app().innerHTML='<p class="sub">데이터를 불러오지 못했어요. 새로고침해 주세요.</p>';return}
+  IDS=WORDS.map((x,i)=>i).filter(i=>MODE==='day'?WORDS[i][5]===N:(WORDS[i][5]>(N-1)*S&&WORDS[i][5]<=N*S));
+  document.title=`${CFG.name} ${label()} 테스트 | ${CFG.series}`;
+  home();
+}
+function home(){
+  const cnt=MODE==='day'?CFG.dayQ:CFG.setQ, done=ls(CFG.key+(MODE==='day'?'Day':'Set'))||{}, best=done[N];
+  const range=MODE==='day'?'':` (Day ${(N-1)*S+1}~${N*S})`;
+  let h=`<span class="pill">${CFG.series}</span><h1>${CFG.name} ${label()}${range}<br>${cnt}문제 자동 채점</h1>
+  <p class="sub">${MODE==='day'?`오늘의 ${CFG.perDay}단어 중 ${CFG.dayQ}문제`:`${CFG.perDay*S}단어 중 ${CFG.setQ}문제`}가 나와요. 누르면 바로 정답을 알려 주고, 끝나면 점수와 틀린 단어를 정리해 드려요.</p>
+  ${best!=null?`<div class="box">지난 기록: <b>${best}점</b> 완료</div>`:''}
+  <button class="btn y" onclick="start()">테스트 시작 ▶</button>`;
+  if(MODE==='day'){
+    h+=`<button class="btn g" onclick="toggleList()">오늘의 ${CFG.perDay}단어 먼저 보기</button><div id="list"></div>`;
+    if(N>1)h+=`<a class="btn o" href="${CFG.self}?day=${N-1}">어제 Day ${N-1} 다시 풀기</a>`;
+  }
+  h+=`<a class="btn g" href="${HUB}">전체 Day·세트 보기</a><a class="btn g" href="${esc(blogBack())}">블로그로 돌아가기</a>`+foot();
+  app().innerHTML=h;window.scrollTo(0,0);
+}
+function toggleList(){const el=$('#list');if(el.innerHTML){el.innerHTML='';return}
+  el.innerHTML='<div class="box"><table class="tbl">'+IDS.map(i=>{const x=W(i);return `<tr><td class="e">${esc(x.w)}</td><td class="p">${esc(x.pos)}</td><td>${esc(x.m)}</td></tr>`}).join('')+'</table></div>';}
+function start(){
+  const cnt=MODE==='day'?CFG.dayQ:CFG.setQ, rev=Math.round(cnt*0.2);
+  const pick=shuf(IDS).slice(0,cnt), types=shuf(Array(cnt).fill(0).map((_,k)=>k<rev?1:0));
+  RETRY=false;Q=pick.map((i,k)=>{const x=W(i),tri=x.dx[Math.floor(Math.random()*x.dx.length)];const opts=shuf([i,...tri]);return {i,t:types[k],opts,ok:opts.indexOf(i)}});
+  cur=0;ans=[];showQ();
+}
+function showQ(){
+  const q=Q[cur],x=W(q.i),tot=Q.length;
+  let h=`<div class="prog"><span>${label()} · ${cur+1} / ${tot}</span><span>맞힌 수 ${ans.filter(a=>a===1).length}</span></div><div class="bar"><i style="width:${cur/tot*100}%"></i></div><div class="card">`;
+  if(q.t===0){h+=`<div class="qt">이 단어의 뜻은?</div><div class="qw">${esc(x.w)}</div><button class="spk" onclick="say('${x.w.replace(/'/g,"\\'")}')">발음 듣기 ▶</button>`;}
+  else{h+=`<div class="qt">이 뜻의 영어 단어는?</div><div class="qk"><span class="pos">${POSN[x.qp]||''}</span>${esc(x.q)}</div>`;}
+  h+=`<div class="opts">`+q.opts.map((o,k)=>{const y=W(o);return `<button class="op" id="op${k}" onclick="pick(${k})"><span class="n">${k+1}</span>${esc(q.t===0?y.q:y.w)}</button>`}).join('')+`</div><button class="skip" id="skp" onclick="pick(-1)">모르겠어요</button><div id="fb"></div></div>`;
+  app().innerHTML=h;window.scrollTo(0,0);
+}
+function pick(k){
+  const q=Q[cur],x=W(q.i);if(ans[cur]!==undefined)return;
+  const right=k===q.ok;ans[cur]=right?1:0;
+  document.querySelectorAll('.op').forEach(b=>b.disabled=true);$('#skp').style.display='none';
+  $('#op'+q.ok).classList.add('good');if(k>=0&&!right)$('#op'+k).classList.add('bad');
+  if(q.t===1||!right)say(x.w);
+  $('#fb').innerHTML=`<div class="fb"><div class="v ${right?'o':'x'}">${right?'정답!':(k<0?'괜찮아요, 이렇게 외워요':'아쉬워요')}</div><div class="ans">${esc(x.w)} <span class="pos">${esc(x.pos)}</span></div><div>${esc(x.m)}</div></div><button class="btn y" onclick="next()">${cur+1<Q.length?'다음 문제 ▶':'결과 보기 ▶'}</button>`;
+}
+function next(){cur++;if(cur<Q.length)showQ();else result();}
+function result(){
+  const tot=Q.length,ok=ans.filter(a=>a===1).length,sc=Math.round(ok/tot*100);
+  const key=CFG.key+(MODE==='day'?'Day':'Set'),done=ls(key)||{};if(!RETRY){done[N]=Math.max(done[N]||0,sc);ls(key,done);}
+  const msg=sc===100?'완벽해요! 이 Day는 졸업':sc>=90?'거의 다 외웠어요':sc>=70?'좋아요, 틀린 단어만 한 번 더':sc>=50?'절반 넘었어요, 다시 풀면 금방 올라가요':'괜찮아요, 단어 목록 보고 다시 도전!';
+  const wrong=Q.filter((q,k)=>ans[k]!==1).map(q=>W(q.i));
+  let h=`<span class="pill">${label()} 결과</span><div class="score">${tot}문제 중 ${ok}개 맞힘</div><div class="big">${sc}점</div><div class="msg">${msg}</div>`;
+  h+=`<div class="box">블로그 글 댓글에 <b>「${label()} 완료, ${sc}점」</b>을 남겨 주세요. 매일 기록이 쌓이면 ${CFG.days}일 뒤 ${CFG.goal}가 내 것이 됩니다.</div>`;
+  if(wrong.length){h+=`<h3>틀린 단어 ${wrong.length}개</h3>`+wrong.map(x=>`<div class="wl"><div><div class="w">${esc(x.w)} <span class="pos">${esc(x.pos)}</span></div><div class="m">${esc(x.m)}</div></div><button onclick="say('${x.w.replace(/'/g,"\\'")}')">발음 ▶</button></div>`).join('');
+    h+=`<button class="btn y" onclick="retryWrong()">틀린 단어만 다시 풀기</button>`;}
+  h+=`<button class="btn ${wrong.length?'g':'y'}" onclick="start()">다시 풀기 (새 문제)</button>`;
+  h+=`<a class="btn g" href="${esc(blogBack())}">블로그로 돌아가기</a>`;
+  if(MODE==='day'){h+=`<div class="row2">${N>1?`<a class="btn g" href="${CFG.self}?day=${N-1}">어제 Day ${N-1}</a>`:'<span></span>'}<a class="btn g" href="${HUB}">전체 Day 보기</a></div>`;
+    if(N%S===0)h+=`<a class="btn o" href="${CFG.self}?set=${N/S}">누적 세트 ${N/S} (${CFG.perDay*S}단어 ${CFG.setQ}문제) 도전</a>`;
+    if(N<CFG.days)h+=`<div class="box">다음 <b>Day ${N+1}</b>은 블로그에 ${CFG.time}에 올라와요. 이웃 추가하면 새 Day 알림을 받을 수 있어요.</div>`;}
+  else h+=`<a class="btn g" href="${HUB}">전체 Day·세트 보기</a>`;
+  app().innerHTML=h+foot();window.scrollTo(0,0);
+}
+function retryWrong(){RETRY=true;const ids=Q.filter((q,k)=>ans[k]!==1).map(q=>q.i);Q=shuf(ids).map(i=>{const x=W(i),tri=x.dx[Math.floor(Math.random()*x.dx.length)],opts=shuf([i,...tri]);return {i,t:0,opts,ok:opts.indexOf(i)}});cur=0;ans=[];showQ();}
+function foot(){return `<div class="ft">${CFG.foot}<br>곽승범 원장 · 유튜브 영어 혁명</div>`}
+init();
+</script></body></html>

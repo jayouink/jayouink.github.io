@@ -37,7 +37,8 @@ a.lk{color:#FFD54A;font-weight:800;text-decoration:none} .ft{text-align:center;c
 </style></head>
 <body><div class="wrap" id="app"><p class="sub">불러오는 중...</p></div>
 <script>
-const HUB='suneung.html', CAT_DEFAULT='https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=0';
+const CFG=/*CFG*/{"key":"sn","data":"suneung_words.json","posts":"suneung_posts.json","hub":"suneung.html","self":"suneung_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=23","days":100,"perDay":30,"dayQ":20,"setDays":10,"setQ":50,"name":"수능 영단어","series":"수능 필수 어휘 100일 챌린지","goal":"수능 필수 어휘 3,000개","foot":"수능 필수 어휘 3000 · 평가원 수능·모의평가 30회분 출현 단어 중심","time":"아침 7시"}/*END*/;
+const HUB=CFG.hub, CAT_DEFAULT=CFG.cat, S=CFG.setDays;
 let RETRY=false,WORDS=[], POSTS={days:{},sets:{},cat:CAT_DEFAULT}, MODE='day', N=1, IDS=[], Q=[], cur=0, ans=[], snd=true;
 const $=s=>document.querySelector(s), app=()=>$('#app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -49,26 +50,26 @@ let VOICE=null; function pickVoice(){try{const vs=speechSynthesis.getVoices();VO
 try{speechSynthesis.onvoiceschanged=pickVoice;pickVoice();}catch(e){}
 function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(VOICE)u.voice=VOICE;u.rate=.9;speechSynthesis.speak(u);}catch(e){}}
 function blogDay(d){return (POSTS.days&&POSTS.days[d])||POSTS.cat||CAT_DEFAULT}
-function blogBack(){return MODE==='day'?blogDay(N):((POSTS.sets&&POSTS.sets[N])||blogDay(N*10))}
+function blogBack(){return MODE==='day'?blogDay(N):((POSTS.sets&&POSTS.sets[N])||blogDay(N*S))}
 function label(){return MODE==='day'?`Day ${N}`:`누적 세트 ${N}`}
 async function init(){
   const p=new URLSearchParams(location.search);
-  if(p.get('set')){MODE='set';N=Math.min(10,Math.max(1,parseInt(p.get('set'))||1));} else {MODE='day';N=Math.min(100,Math.max(1,parseInt(p.get('day'))||1));}
-  try{const [a,b]=await Promise.all([fetch('suneung_words.json').then(r=>r.json()),fetch('suneung_posts.json?t='+Date.now()).then(r=>r.json()).catch(()=>null)]);WORDS=a.words;if(b)POSTS=b;}catch(e){app().innerHTML='<p class="sub">데이터를 불러오지 못했어요. 새로고침해 주세요.</p>';return}
-  IDS=WORDS.map((x,i)=>i).filter(i=>MODE==='day'?WORDS[i][5]===N:(WORDS[i][5]>(N-1)*10&&WORDS[i][5]<=N*10));
-  document.title=`수능 영단어 ${label()} 테스트 | 수능 필수 어휘 100일 챌린지`;
+  if(p.get('set')){MODE='set';N=Math.min(CFG.days/S,Math.max(1,parseInt(p.get('set'))||1));} else {MODE='day';N=Math.min(CFG.days,Math.max(1,parseInt(p.get('day'))||1));}
+  try{const [a,b]=await Promise.all([fetch(CFG.data).then(r=>r.json()),fetch(CFG.posts+'?t='+Date.now()).then(r=>r.json()).catch(()=>null)]);WORDS=a.words;if(b)POSTS=b;}catch(e){app().innerHTML='<p class="sub">데이터를 불러오지 못했어요. 새로고침해 주세요.</p>';return}
+  IDS=WORDS.map((x,i)=>i).filter(i=>MODE==='day'?WORDS[i][5]===N:(WORDS[i][5]>(N-1)*S&&WORDS[i][5]<=N*S));
+  document.title=`${CFG.name} ${label()} 테스트 | ${CFG.series}`;
   home();
 }
 function home(){
-  const cnt=MODE==='day'?20:50, done=ls(MODE==='day'?'snDay':'snSet')||{}, best=done[N];
-  const range=MODE==='day'?'':` (Day ${(N-1)*10+1}~${N*10})`;
-  let h=`<span class="pill">수능 필수 어휘 100일 챌린지</span><h1>수능 영단어 ${label()}${range}<br>${cnt}문제 자동 채점</h1>
-  <p class="sub">${MODE==='day'?'오늘의 30단어 중 20문제':'300단어 중 50문제'}가 나와요. 누르면 바로 정답을 알려 주고, 끝나면 점수와 틀린 단어를 정리해 드려요.</p>
+  const cnt=MODE==='day'?CFG.dayQ:CFG.setQ, done=ls(CFG.key+(MODE==='day'?'Day':'Set'))||{}, best=done[N];
+  const range=MODE==='day'?'':` (Day ${(N-1)*S+1}~${N*S})`;
+  let h=`<span class="pill">${CFG.series}</span><h1>${CFG.name} ${label()}${range}<br>${cnt}문제 자동 채점</h1>
+  <p class="sub">${MODE==='day'?`오늘의 ${CFG.perDay}단어 중 ${CFG.dayQ}문제`:`${CFG.perDay*S}단어 중 ${CFG.setQ}문제`}가 나와요. 누르면 바로 정답을 알려 주고, 끝나면 점수와 틀린 단어를 정리해 드려요.</p>
   ${best!=null?`<div class="box">지난 기록: <b>${best}점</b> 완료</div>`:''}
   <button class="btn y" onclick="start()">테스트 시작 ▶</button>`;
   if(MODE==='day'){
-    h+=`<button class="btn g" onclick="toggleList()">오늘의 30단어 먼저 보기</button><div id="list"></div>`;
-    if(N>1)h+=`<a class="btn o" href="suneung_day.html?day=${N-1}">어제 Day ${N-1} 다시 풀기</a>`;
+    h+=`<button class="btn g" onclick="toggleList()">오늘의 ${CFG.perDay}단어 먼저 보기</button><div id="list"></div>`;
+    if(N>1)h+=`<a class="btn o" href="${CFG.self}?day=${N-1}">어제 Day ${N-1} 다시 풀기</a>`;
   }
   h+=`<a class="btn g" href="${HUB}">전체 Day·세트 보기</a><a class="btn g" href="${esc(blogBack())}">블로그로 돌아가기</a>`+foot();
   app().innerHTML=h;window.scrollTo(0,0);
@@ -76,7 +77,7 @@ function home(){
 function toggleList(){const el=$('#list');if(el.innerHTML){el.innerHTML='';return}
   el.innerHTML='<div class="box"><table class="tbl">'+IDS.map(i=>{const x=W(i);return `<tr><td class="e">${esc(x.w)}</td><td class="p">${esc(x.pos)}</td><td>${esc(x.m)}</td></tr>`}).join('')+'</table></div>';}
 function start(){
-  const cnt=MODE==='day'?20:50, rev=Math.round(cnt*0.2);
+  const cnt=MODE==='day'?CFG.dayQ:CFG.setQ, rev=Math.round(cnt*0.2);
   const pick=shuf(IDS).slice(0,cnt), types=shuf(Array(cnt).fill(0).map((_,k)=>k<rev?1:0));
   RETRY=false;Q=pick.map((i,k)=>{const x=W(i),tri=x.dx[Math.floor(Math.random()*x.dx.length)];const opts=shuf([i,...tri]);return {i,t:types[k],opts,ok:opts.indexOf(i)}});
   cur=0;ans=[];showQ();
@@ -100,22 +101,22 @@ function pick(k){
 function next(){cur++;if(cur<Q.length)showQ();else result();}
 function result(){
   const tot=Q.length,ok=ans.filter(a=>a===1).length,sc=Math.round(ok/tot*100);
-  const key=MODE==='day'?'snDay':'snSet',done=ls(key)||{};if(!RETRY){done[N]=Math.max(done[N]||0,sc);ls(key,done);}
+  const key=CFG.key+(MODE==='day'?'Day':'Set'),done=ls(key)||{};if(!RETRY){done[N]=Math.max(done[N]||0,sc);ls(key,done);}
   const msg=sc===100?'완벽해요! 이 Day는 졸업':sc>=90?'거의 다 외웠어요':sc>=70?'좋아요, 틀린 단어만 한 번 더':sc>=50?'절반 넘었어요, 다시 풀면 금방 올라가요':'괜찮아요, 단어 목록 보고 다시 도전!';
   const wrong=Q.filter((q,k)=>ans[k]!==1).map(q=>W(q.i));
   let h=`<span class="pill">${label()} 결과</span><div class="score">${tot}문제 중 ${ok}개 맞힘</div><div class="big">${sc}점</div><div class="msg">${msg}</div>`;
-  h+=`<div class="box">블로그 글 댓글에 <b>「${label()} 완료, ${sc}점」</b>을 남겨 주세요. 매일 기록이 쌓이면 100일 뒤 수능 필수 어휘 3,000개가 내 것이 됩니다.</div>`;
+  h+=`<div class="box">블로그 글 댓글에 <b>「${label()} 완료, ${sc}점」</b>을 남겨 주세요. 매일 기록이 쌓이면 ${CFG.days}일 뒤 ${CFG.goal}가 내 것이 됩니다.</div>`;
   if(wrong.length){h+=`<h3>틀린 단어 ${wrong.length}개</h3>`+wrong.map(x=>`<div class="wl"><div><div class="w">${esc(x.w)} <span class="pos">${esc(x.pos)}</span></div><div class="m">${esc(x.m)}</div></div><button onclick="say('${x.w.replace(/'/g,"\\'")}')">발음 ▶</button></div>`).join('');
     h+=`<button class="btn y" onclick="retryWrong()">틀린 단어만 다시 풀기</button>`;}
   h+=`<button class="btn ${wrong.length?'g':'y'}" onclick="start()">다시 풀기 (새 문제)</button>`;
   h+=`<a class="btn g" href="${esc(blogBack())}">블로그로 돌아가기</a>`;
-  if(MODE==='day'){h+=`<div class="row2">${N>1?`<a class="btn g" href="suneung_day.html?day=${N-1}">어제 Day ${N-1}</a>`:'<span></span>'}<a class="btn g" href="${HUB}">전체 Day 보기</a></div>`;
-    if(N%10===0)h+=`<a class="btn o" href="suneung_day.html?set=${N/10}">누적 세트 ${N/10} (300단어 50문제) 도전</a>`;
-    if(N<100)h+=`<div class="box">다음 <b>Day ${N+1}</b>은 블로그에 아침 7시에 올라와요. 이웃 추가하면 새 Day 알림을 받을 수 있어요.</div>`;}
+  if(MODE==='day'){h+=`<div class="row2">${N>1?`<a class="btn g" href="${CFG.self}?day=${N-1}">어제 Day ${N-1}</a>`:'<span></span>'}<a class="btn g" href="${HUB}">전체 Day 보기</a></div>`;
+    if(N%S===0)h+=`<a class="btn o" href="${CFG.self}?set=${N/S}">누적 세트 ${N/S} (${CFG.perDay*S}단어 ${CFG.setQ}문제) 도전</a>`;
+    if(N<CFG.days)h+=`<div class="box">다음 <b>Day ${N+1}</b>은 블로그에 ${CFG.time}에 올라와요. 이웃 추가하면 새 Day 알림을 받을 수 있어요.</div>`;}
   else h+=`<a class="btn g" href="${HUB}">전체 Day·세트 보기</a>`;
   app().innerHTML=h+foot();window.scrollTo(0,0);
 }
 function retryWrong(){RETRY=true;const ids=Q.filter((q,k)=>ans[k]!==1).map(q=>q.i);Q=shuf(ids).map(i=>{const x=W(i),tri=x.dx[Math.floor(Math.random()*x.dx.length)],opts=shuf([i,...tri]);return {i,t:0,opts,ok:opts.indexOf(i)}});cur=0;ans=[];showQ();}
-function foot(){return `<div class="ft">수능 필수 어휘 3000 · 평가원 수능·모의평가 30회분 출현 단어 중심<br>곽승범 원장 · 유튜브 영어 혁명</div>`}
+function foot(){return `<div class="ft">${CFG.foot}<br>곽승범 원장 · 유튜브 영어 혁명</div>`}
 init();
 </script></body></html>
