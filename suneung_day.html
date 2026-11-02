@@ -37,7 +37,7 @@ a.lk{color:#FFD54A;font-weight:800;text-decoration:none} .ft{text-align:center;c
 </style></head>
 <body><div class="wrap" id="app"><p class="sub">불러오는 중...</p></div>
 <script>
-const CFG=/*CFG*/{"key":"sn","data":"suneung_words.json","posts":"suneung_posts.json","hub":"suneung.html","self":"suneung_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=23","days":100,"perDay":30,"dayQ":20,"setDays":10,"setQ":50,"name":"수능 영단어","series":"수능 필수 어휘 100일 챌린지","goal":"수능 필수 어휘 3,000개","foot":"수능 필수 어휘 3000 · 평가원 수능·모의평가 30회분 출현 단어 중심","time":"아침 7시"}/*END*/;
+const CFG=/*CFG*/{"key":"sn","data":"suneung_words.json","posts":"suneung_posts.json","hub":"suneung.html","self":"suneung_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=23","days":100,"perDay":30,"dayQ":20,"setDays":10,"setQ":50,"name":"수능 영단어","series":"수능 필수 어휘 100일 챌린지","goal":"수능 필수 어휘 3,000개","foot":"수능 필수 어휘 3000 · 평가원 수능·모의평가 30회분 출현 단어 중심","time":"아침 7시","v":1}/*END*/;
 const HUB=CFG.hub, CAT_DEFAULT=CFG.cat, S=CFG.setDays;
 let RETRY=false,WORDS=[], POSTS={days:{},sets:{},cat:CAT_DEFAULT}, MODE='day', N=1, IDS=[], Q=[], cur=0, ans=[], snd=true;
 const $=s=>document.querySelector(s), app=()=>$('#app');
@@ -55,7 +55,7 @@ function label(){return MODE==='day'?`Day ${N}`:`누적 세트 ${N}`}
 async function init(){
   const p=new URLSearchParams(location.search);
   if(p.get('set')){MODE='set';N=Math.min(CFG.days/S,Math.max(1,parseInt(p.get('set'))||1));} else {MODE='day';N=Math.min(CFG.days,Math.max(1,parseInt(p.get('day'))||1));}
-  try{const [a,b]=await Promise.all([fetch(CFG.data).then(r=>r.json()),fetch(CFG.posts+'?t='+Date.now()).then(r=>r.json()).catch(()=>null)]);WORDS=a.words;if(b)POSTS=b;}catch(e){app().innerHTML='<p class="sub">데이터를 불러오지 못했어요. 새로고침해 주세요.</p>';return}
+  try{const [a,b]=await Promise.all([fetch(CFG.data+'?v='+(CFG.v||1)).then(r=>r.json()),fetch(CFG.posts+'?t='+Date.now()).then(r=>r.json()).catch(()=>null)]);WORDS=a.words;if(b)POSTS=b;}catch(e){app().innerHTML='<p class="sub">데이터를 불러오지 못했어요. 새로고침해 주세요.</p>';return}
   IDS=WORDS.map((x,i)=>i).filter(i=>MODE==='day'?WORDS[i][5]===N:(WORDS[i][5]>(N-1)*S&&WORDS[i][5]<=N*S));
   document.title=`${CFG.name} ${label()} 테스트 | ${CFG.series}`;
   home();

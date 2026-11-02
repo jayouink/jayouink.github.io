@@ -37,7 +37,7 @@ a.lk{color:#FFD54A;font-weight:800;text-decoration:none} .ft{text-align:center;c
 </style></head>
 <body><div class="wrap" id="app"><p class="sub">불러오는 중...</p></div>
 <script>
-const CFG=/*CFG*/{"key":"md","data":"middle_words.json","posts":"middle_posts.json","hub":"middle.html","self":"middle_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=24","days":50,"perDay":20,"dayQ":15,"setDays":10,"setQ":40,"name":"중등 영단어","series":"중등 필수 영단어 50일 챌린지","goal":"중등 필수 영단어 1,000개","foot":"중등 필수 영단어 1000 · 교육과정 기본 어휘 중심","time":"아침 7시 30분"}/*END*/;
+const CFG=/*CFG*/{"key":"md","data":"middle_words.json","posts":"middle_posts.json","hub":"middle.html","self":"middle_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=24","days":50,"perDay":20,"dayQ":15,"setDays":10,"setQ":40,"name":"중등 영단어","series":"중등 필수 영단어 50일 챌린지","goal":"중등 필수 영단어 1,000개","foot":"중등 필수 영단어 1000 · 교육과정 기본 어휘 중심","time":"아침 7시 30분","v":2}/*END*/;
 const HUB=CFG.hub, CAT_DEFAULT=CFG.cat, S=CFG.setDays;
 let RETRY=false,WORDS=[], POSTS={days:{},sets:{},cat:CAT_DEFAULT}, MODE='day', N=1, IDS=[], Q=[], cur=0, ans=[], snd=true;
 const $=s=>document.querySelector(s), app=()=>$('#app');
@@ -55,7 +55,7 @@ function label(){return MODE==='day'?`Day ${N}`:`누적 세트 ${N}`}
 async function init(){
   const p=new URLSearchParams(location.search);
   if(p.get('set')){MODE='set';N=Math.min(CFG.days/S,Math.max(1,parseInt(p.get('set'))||1));} else {MODE='day';N=Math.min(CFG.days,Math.max(1,parseInt(p.get('day'))||1));}
-  try{const [a,b]=await Promise.all([fetch(CFG.data).then(r=>r.json()),fetch(CFG.posts+'?t='+Date.now()).then(r=>r.json()).catch(()=>null)]);WORDS=a.words;if(b)POSTS=b;}catch(e){app().innerHTML='<p class="sub">데이터를 불러오지 못했어요. 새로고침해 주세요.</p>';return}
+  try{const [a,b]=await Promise.all([fetch(CFG.data+'?v='+(CFG.v||1)).then(r=>r.json()),fetch(CFG.posts+'?t='+Date.now()).then(r=>r.json()).catch(()=>null)]);WORDS=a.words;if(b)POSTS=b;}catch(e){app().innerHTML='<p class="sub">데이터를 불러오지 못했어요. 새로고침해 주세요.</p>';return}
   IDS=WORDS.map((x,i)=>i).filter(i=>MODE==='day'?WORDS[i][5]===N:(WORDS[i][5]>(N-1)*S&&WORDS[i][5]<=N*S));
   document.title=`${CFG.name} ${label()} 테스트 | ${CFG.series}`;
   home();
