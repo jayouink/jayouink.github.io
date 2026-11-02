@@ -39,7 +39,7 @@ body{font-size:18px} .sub{font-size:18px} .box{font-size:17.5px} .qw{font-size:4
 </style></head>
 <body><div class="wrap" id="app"><p class="sub">불러오는 중...</p></div>
 <script>
-const CFG=/*CFG*/{"key":"tw","data":"talk_words.json","posts":"talk_posts.json","hub":"talk.html","self":"talk_day.html","cat":"https://blog.naver.com/jayouink2/224453079323","days":25,"perDay":40,"dayQ":20,"setDays":5,"setQ":40,"name":"영어회화 단어","series":"영어회화 단어 25일 챌린지","goal":"영어회화 단어 1,000개","foot":"영어 회화 단어 1000 · 블로그 무료 PDF 단어장 Day 1~25와 같은 구성","time":"아침 9시","v":1}/*END*/;
+const CFG=/*CFG*/{"key":"tw","data":"talk_words.json","posts":"talk_posts.json","hub":"talk.html","self":"talk_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=29","days":25,"perDay":40,"dayQ":20,"setDays":5,"setQ":40,"name":"영어회화 단어","series":"영어회화 단어 25일 챌린지","goal":"영어회화 단어 1,000개","foot":"영어 회화 단어 1000 · 블로그 무료 PDF 단어장 Day 1~25와 같은 구성","time":"아침 9시","v":1}/*END*/;
 const HUB=CFG.hub, CAT_DEFAULT=CFG.cat, S=CFG.setDays;
 let RETRY=false,WORDS=[], POSTS={days:{},sets:{},cat:CAT_DEFAULT}, MODE='day', N=1, IDS=[], Q=[], cur=0, ans=[], snd=true;
 const $=s=>document.querySelector(s), app=()=>$('#app');
