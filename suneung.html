@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>수능 필수 어휘 100일 챌린지 | 수능 영단어 Day 1~100 자동 채점 테스트</title>
+<meta name="description" content="수능 필수 어휘 3000을 하루 30단어씩 100일. Day별 20문제 테스트, 10일마다 누적 300단어 50문제 세트. 완료한 Day 표시. 곽승범 원장">
+<meta property="og:type" content="website"><meta property="og:title" content="수능 필수 어휘 100일 챌린지">
+<meta property="og:description" content="하루 30단어 · Day별 20문제 자동 채점 · 10일마다 누적 50문제">
+<meta property="og:image" content="https://jayouink.github.io/og_suneung.png"><meta property="og:url" content="https://jayouink.github.io/suneung.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent} body{margin:0;background:#1b2340;color:#fff;font-family:Pretendard,system-ui,sans-serif}
+.wrap{max-width:520px;margin:0 auto;padding:22px 18px 44px;min-height:100vh}
+.pill{display:inline-block;background:#FFD54A;color:#111;font-weight:800;font-size:14px;padding:5px 12px;border-radius:20px}
+h1{font-size:30px;line-height:1.3;margin:12px 0 6px;font-weight:900} .sub{color:#aab4d4;font-size:16px;line-height:1.6}
+.box{background:#26305a;border-radius:16px;padding:16px;margin-top:16px;font-size:15.5px;line-height:1.7;color:#dfe4f5} .box b{color:#fff}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:17px;font-size:18px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:12px;text-align:center;text-decoration:none}
+.btn.y{background:#FFD54A;color:#111} .btn.g{background:#26305a;color:#fff}
+h3{font-size:18px;margin:26px 0 4px;color:#FFD54A} .hint{color:#aab4d4;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:10px}
+.grid a{display:block;background:#26305a;border-radius:11px;padding:10px 2px 8px;text-align:center;color:#fff;text-decoration:none;font-weight:800;font-size:16px;line-height:1.25}
+.grid a small{display:block;font-size:11.5px;color:#8a93b8;font-weight:700;margin-top:2px}
+.grid a.done{background:#2f6f52} .grid a.done small{color:#d5f5e3}
+.grid a.set{background:#3a3270} .grid a.set.done{background:#2f6f52}
+.blk{font-size:13.5px;color:#cfd6ee;font-weight:800;margin:16px 0 0}
+.stat{display:flex;gap:10px;margin-top:14px} .stat div{flex:1;background:#26305a;border-radius:14px;padding:12px;text-align:center} .stat b{display:block;font-size:26px;color:#FFD54A}
+.ft{text-align:center;color:#7d87ad;font-size:13px;margin-top:28px;line-height:1.7}
+</style></head>
+<body><div class="wrap" id="app"></div>
+<script>
+let POSTS={cat:'https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=0'};
+function ls(k){try{return JSON.parse(localStorage.getItem(k)||'null')||{}}catch(e){return {}}}
+function render(){
+  const D=ls('snDay'),S=ls('snSet'),nd=Object.keys(D).length;
+  let next=1;for(let d=1;d<=100;d++){if(D[d]==null){next=d;break}}
+  let h=`<span class="pill">수능 필수 어휘 100일 챌린지</span><h1>수능 영단어 3000<br>하루 30단어, 100일 완성</h1>
+  <p class="sub">평가원 수능·모의평가 30회분에 자주 나온 단어 3,000개를 Day 1~100으로 나눴어요. 하루 15분, 오늘 Day를 풀고 블로그 댓글에 점수를 남겨 주세요.</p>
+  <div class="stat"><div><b>${nd}</b>완료한 Day</div><div><b>${Object.keys(S).length}</b>완료한 세트</div></div>
+  <a class="btn y" href="suneung_day.html?day=${next}">Day ${next} 풀기 ▶</a>
+  <a class="btn g" href="${POSTS.cat}">블로그 연재 보기 (매일 아침 7시 새 Day)</a>
+  <h3>Day 1~100</h3><div class="hint">초록색 = 완료한 Day (숫자는 최고 점수). 이 기기에만 저장돼요.</div>`;
+  for(let k=1;k<=10;k++){
+    h+=`<div class="blk">Day ${(k-1)*10+1}~${k*10}</div><div class="grid">`;
+    for(let d=(k-1)*10+1;d<=k*10;d++)h+=`<a href="suneung_day.html?day=${d}" class="${D[d]!=null?'done':''}">Day ${d}<small>${D[d]!=null?D[d]+'점':'30단어'}</small></a>`;
+    h+=`</div>`;
+  }
+  h+=`<h3>누적 세트 1~10</h3><div class="hint">10일마다 300단어 중 50문제. 오래 기억했는지 확인해요.</div><div class="grid">`;
+  for(let k=1;k<=10;k++)h+=`<a class="set ${S[k]!=null?'done':''}" href="suneung_day.html?set=${k}">세트 ${k}<small>${S[k]!=null?S[k]+'점':'Day '+((k-1)*10+1)+'~'+k*10}</small></a>`;
+  h+=`</div><div class="ft">수능 필수 어휘 3000 · 평가원 수능·모의평가 30회분 출현 단어 중심<br>곽승범 원장 · 유튜브 영어 혁명</div>`;
+  document.getElementById('app').innerHTML=h;
+}
+render();
+fetch('suneung_posts.json?t='+Date.now()).then(r=>r.json()).then(j=>{POSTS=j;render()}).catch(()=>{});
+</script></body></html>
