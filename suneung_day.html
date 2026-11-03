@@ -33,13 +33,16 @@ h3{font-size:18px;margin:26px 0 8px;color:#FFD54A}
 .wl .w{font-size:20px;font-weight:900} .wl .m{font-size:15px;color:#dfe4f5;margin-top:3px;line-height:1.5} .wl button{flex:none;border:0;background:#33407a;color:#fff;border-radius:16px;padding:7px 11px;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer}
 .tbl{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px} .tbl td{padding:9px 4px;border-bottom:1px solid #34407a;vertical-align:top;line-height:1.45} .tbl td.e{font-weight:900;font-size:17px;white-space:nowrap} .tbl td.p{color:#aab4d4;font-size:13px;white-space:nowrap}
 a.lk{color:#FFD54A;font-weight:800;text-decoration:none} .ft{text-align:center;color:#7d87ad;font-size:13px;margin-top:28px;line-height:1.7}
+.qs{font-size:19px;font-weight:700;line-height:1.55;margin:12px 0 4px;color:#1b2340;word-break:keep-all} .qs u{text-decoration:none;border-bottom:3px solid #FFB800;font-weight:900} .qs .bl{display:inline-block;min-width:64px;border-bottom:2px solid #1b2340;margin:0 3px} .op.en{font-size:20px} .xp{margin-top:6px;color:#3d4566;font-size:15.5px;line-height:1.6}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px} .row2 .btn{margin-top:10px;font-size:16px;padding:15px 8px}
 </style></head>
 <body><div class="wrap" id="app"><p class="sub">불러오는 중...</p></div>
 <script>
-const CFG=/*CFG*/{"key":"sn","data":"suneung_words.json","posts":"suneung_posts.json","hub":"suneung.html","self":"suneung_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=23","days":100,"perDay":30,"dayQ":20,"setDays":10,"setQ":50,"name":"수능 영단어","series":"수능 필수 어휘 100일 챌린지","goal":"수능 필수 어휘 3,000개","foot":"수능 필수 어휘 3000 · 평가원 수능·모의평가 30회분 출현 단어 중심","time":"아침 7시","v":1}/*END*/;
+const CFG=/*CFG*/{"key":"sn","data":"suneung_words.json","posts":"suneung_posts.json","hub":"suneung.html","self":"suneung_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=23","days":100,"perDay":30,"dayQ":20,"setDays":10,"setQ":50,"name":"수능 영단어","series":"수능 필수 어휘 100일 챌린지","goal":"수능 필수 어휘 3,000개","foot":"수능 필수 어휘 3000 · 평가원 수능·모의평가 30회분 출현 단어 중심","time":"아침 7시","v":3,"bank":"suneung_bank.json","mix":{"b":0.4,"p":0.2,"s":0.1,"k":0.2,"e":0.1}}/*END*/;
+// v3 (staging): 검수 통과 Day(bank 파일의 reviewedDays)만 고난도, 나머지 Day 는 이전 방식(v1).
+// 고난도 문항은 모두 파일에 고정된 검수본(은행 b/p/s/a + 자동 k/e). 실행 중 새 고난도 문항을 만들지 않는다.
 const HUB=CFG.hub, CAT_DEFAULT=CFG.cat, S=CFG.setDays;
-let RETRY=false,WORDS=[], POSTS={days:{},sets:{},cat:CAT_DEFAULT}, MODE='day', N=1, IDS=[], Q=[], cur=0, ans=[], snd=true;
+let BANK={},REV=new Set(),HARD=false,DAYS=[],RETRY=false,WORDS=[], POSTS={days:{},sets:{},cat:CAT_DEFAULT}, MODE='day', N=1, IDS=[], Q=[], cur=0, ans=[], snd=true;
 const $=s=>document.querySelector(s), app=()=>$('#app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const POSN={'명':'명사','동':'동사','형':'형용사','부':'부사','전':'전치사','접':'접속사'};
@@ -52,10 +55,16 @@ function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtteranc
 function blogDay(d){return (POSTS.days&&POSTS.days[d])||POSTS.cat||CAT_DEFAULT}
 function blogBack(){return MODE==='day'?blogDay(N):((POSTS.sets&&POSTS.sets[N])||blogDay(N*S))}
 function label(){return MODE==='day'?`Day ${N}`:`누적 세트 ${N}`}
+const IDX={};function idx(w){if(!Object.keys(IDX).length)WORDS.forEach((x,i)=>{IDX[x[0]]=i});return IDX[w]}
 async function init(){
   const p=new URLSearchParams(location.search);
   if(p.get('set')){MODE='set';N=Math.min(CFG.days/S,Math.max(1,parseInt(p.get('set'))||1));} else {MODE='day';N=Math.min(CFG.days,Math.max(1,parseInt(p.get('day'))||1));}
   try{const [a,b]=await Promise.all([fetch(CFG.data+'?v='+(CFG.v||1)).then(r=>r.json()),fetch(CFG.posts+'?t='+Date.now()).then(r=>r.json()).catch(()=>null)]);WORDS=a.words;if(b)POSTS=b;}catch(e){app().innerHTML='<p class="sub">데이터를 불러오지 못했어요. 새로고침해 주세요.</p>';return}
+  // 검수 통과 목록: 은행 파일의 reviewedDays 에 있고 문항이 실제로 있는 Day 만. 못 불러오면 전부 이전 방식.
+  try{const B=await fetch(CFG.bank+'?t='+Math.floor(Date.now()/36e5)).then(r=>r.ok?r.json():null);
+    if(B&&Array.isArray(B.reviewedDays)&&B.days){B.reviewedDays.forEach(d=>{d=+d;const L=(B.days[d]||[]).filter(it=>idx(it.w)!==undefined&&WORDS[idx(it.w)][5]===d);if(L.length>=CFG.dayQ){BANK[d]=L;REV.add(d)}});}}catch(e){BANK={};REV=new Set()}
+  DAYS=MODE==='day'?[N]:Array.from({length:S},(_,k)=>(N-1)*S+k+1);
+  HARD=DAYS.some(d=>REV.has(d));
   IDS=WORDS.map((x,i)=>i).filter(i=>MODE==='day'?WORDS[i][5]===N:(WORDS[i][5]>(N-1)*S&&WORDS[i][5]<=N*S));
   document.title=`${CFG.name} ${label()} 테스트 | ${CFG.series}`;
   home();
@@ -63,8 +72,12 @@ async function init(){
 function home(){
   const cnt=MODE==='day'?CFG.dayQ:CFG.setQ, done=ls(CFG.key+(MODE==='day'?'Day':'Set'))||{}, best=done[N];
   const range=MODE==='day'?'':` (Day ${(N-1)*S+1}~${N*S})`;
+  const allRev=DAYS.every(d=>REV.has(d));
+  const desc=!HARD?'누르면 바로 정답을 알려 주고, 끝나면 점수와 틀린 단어를 정리해 드려요.'
+    :allRev?'수능처럼 <b>문맥 빈칸·다의어·혼동 어휘</b>로 나오니 뜻만 외워서는 다 맞히기 어려워요. 누르면 바로 정답과 해설을 보여 주고, 끝나면 틀린 단어를 정리해 드려요.'
+    :'일부 Day 는 수능처럼 <b>문맥 빈칸·다의어·혼동 어휘</b>로, 나머지는 뜻 고르기로 나와요. 누르면 바로 정답을 알려 주고, 끝나면 틀린 단어를 정리해 드려요.';
   let h=`<span class="pill">${CFG.series}</span><h1>${CFG.name} ${label()}${range}<br>${cnt}문제 자동 채점</h1>
-  <p class="sub">${MODE==='day'?`오늘의 ${CFG.perDay}단어 중 ${CFG.dayQ}문제`:`${CFG.perDay*S}단어 중 ${CFG.setQ}문제`}가 나와요. 누르면 바로 정답을 알려 주고, 끝나면 점수와 틀린 단어를 정리해 드려요.</p>
+  <p class="sub">${MODE==='day'?`오늘의 ${CFG.perDay}단어 중 ${CFG.dayQ}문제`:`${CFG.perDay*S}단어 중 ${CFG.setQ}문제`}가 나와요. ${desc}</p>
   ${best!=null?`<div class="box">지난 기록: <b>${best}점</b> 완료</div>`:''}
   <button class="btn y" onclick="start()">테스트 시작 ▶</button>`;
   if(MODE==='day'){
@@ -76,18 +89,39 @@ function home(){
 }
 function toggleList(){const el=$('#list');if(el.innerHTML){el.innerHTML='';return}
   el.innerHTML='<div class="box"><table class="tbl">'+IDS.map(i=>{const x=W(i);return `<tr><td class="e">${esc(x.w)}</td><td class="p">${esc(x.pos)}</td><td>${esc(x.m)}</td></tr>`}).join('')+'</table></div>';}
+// 이전 방식(v1) 문항: 공개돼 있던 dx 보기 세트 그대로
+function oldItem(i,k0){const x=W(i),tri=x.dx[Math.floor(Math.random()*x.dx.length)];const opts=shuf([i,...tri]);return {i,t:k0?'k0':'e0',opts,ok:opts.indexOf(i)}}
+// 검수본 고정 문항(보기는 순서만 섞음)
+function fixedItem(it){const i=idx(it.w),ord=shuf([0,1,2,3]);const src=it.od||it.o;return {i,t:it.t,fx:!!it.od,qt:it.qt,qd:it.qd,q:it.q,x:it.x,opts:ord.map(k=>src[k]),ok:ord.indexOf(0)}}
 function start(){
-  const cnt=MODE==='day'?CFG.dayQ:CFG.setQ, rev=Math.round(cnt*0.2);
-  const pick=shuf(IDS).slice(0,cnt), types=shuf(Array(cnt).fill(0).map((_,k)=>k<rev?1:0));
-  RETRY=false;Q=pick.map((i,k)=>{const x=W(i),tri=x.dx[Math.floor(Math.random()*x.dx.length)];const opts=shuf([i,...tri]);return {i,t:types[k],opts,ok:opts.indexOf(i)}});
-  cur=0;ans=[];showQ();
+  const cnt=MODE==='day'?CFG.dayQ:CFG.setQ;
+  RETRY=false;
+  if(!HARD){const rev=Math.round(cnt*0.2),pk=shuf(IDS).slice(0,cnt),types=shuf(Array(cnt).fill(0).map((_,k)=>k<rev?1:0));Q=pk.map((i,k)=>oldItem(i,types[k]));cur=0;ans=[];showQ();return}
+  const revDays=DAYS.filter(d=>REV.has(d)),oldIds=IDS.filter(i=>!REV.has(WORDS[i][5]));
+  const nHard=oldIds.length?Math.round(cnt*revDays.length/DAYS.length):cnt, nOld=cnt-nHard;
+  const pool=shuf(revDays.flatMap(d=>BANK[d]));const used=new Set(),H=[];
+  const take=(types,n)=>{let c=0;for(const it of pool){if(c>=n||H.length>=nHard)break;if(!types.includes(it.t)||it._u)continue;const i=idx(it.w);if(used.has(i))continue;used.add(i);it._u=1;H.push(fixedItem(it));c++}};
+  pool.forEach(it=>delete it._u);
+  const m=CFG.mix;take(['b'],Math.round(nHard*m.b));take(['p'],Math.round(nHard*m.p));take(['s','a'],Math.round(nHard*m.s));take(['k'],Math.round(nHard*m.k));take(['e'],nHard);
+  // 모자라면 남은 검수본에서(다른 단어 우선, 그다음 같은 단어의 다른 문항)
+  for(const it of pool){if(H.length>=nHard)break;if(it._u)continue;const i=idx(it.w);if(used.has(i))continue;used.add(i);it._u=1;H.push(fixedItem(it))}
+  for(const it of pool){if(H.length>=nHard)break;if(it._u)continue;it._u=1;H.push(fixedItem(it))}
+  const O=shuf(oldIds).slice(0,nOld),rv=Math.round(O.length*0.2);const OQ=O.map((i,k)=>oldItem(i,k<rv));
+  Q=shuf(H.concat(OQ)).slice(0,cnt);cur=0;ans=[];showQ();
 }
+const QT={b:'빈칸에 들어갈 가장 알맞은 단어는?',p:'밑줄 친 단어의 문맥 속 뜻은?',s:'밑줄 친 단어와 뜻이 가장 가까운 것은?',a:'밑줄 친 단어와 뜻이 반대인 것은?',k:'이 뜻의 영어 단어는? (철자 주의)',e:'이 단어의 뜻은? (비슷한 철자 주의)',e0:'이 단어의 뜻은?',k0:'이 뜻의 영어 단어는?'};
+function sent(q){return esc(q).replace('____','<span class="bl">&nbsp;</span>').replace(/【([^】]+)】/,'<u>$1</u>')}
+function qdHtml(s){const m=String(s).match(/^(명사|동사|형용사|부사|전치사|접속사) (.*)$/);return m?`<span class="pos">${m[1]}</span>${esc(m[2])}`:esc(s)}
 function showQ(){
   const q=Q[cur],x=W(q.i),tot=Q.length;
-  let h=`<div class="prog"><span>${label()} · ${cur+1} / ${tot}</span><span>맞힌 수 ${ans.filter(a=>a===1).length}</span></div><div class="bar"><i style="width:${cur/tot*100}%"></i></div><div class="card">`;
-  if(q.t===0){h+=`<div class="qt">이 단어의 뜻은?</div><div class="qw">${esc(x.w)}</div><button class="spk" onclick="say('${x.w.replace(/'/g,"\\'")}')">발음 듣기 ▶</button>`;}
-  else{h+=`<div class="qt">이 뜻의 영어 단어는?</div><div class="qk"><span class="pos">${POSN[x.qp]||''}</span>${esc(x.q)}</div>`;}
-  h+=`<div class="opts">`+q.opts.map((o,k)=>{const y=W(o);return `<button class="op" id="op${k}" onclick="pick(${k})"><span class="n">${k+1}</span>${esc(q.t===0?y.q:y.w)}</button>`}).join('')+`</div><button class="skip" id="skp" onclick="pick(-1)">모르겠어요</button><div id="fb"></div></div>`;
+  let h=`<div class="prog"><span>${label()} · ${cur+1} / ${tot}</span><span>맞힌 수 ${ans.filter(a=>a===1).length}</span></div><div class="bar"><i style="width:${cur/tot*100}%"></i></div><div class="card"><div class="qt">${esc(q.qt||QT[q.t])}</div>`;
+  if(q.t==='e0'||q.t==='e'){h+=`<div class="qw">${esc(x.w)}</div><button class="spk" onclick="say('${x.w.replace(/'/g,"\\'")}')">발음 듣기 ▶</button>`;}
+  else if(q.t==='k0'){h+=`<div class="qk"><span class="pos">${POSN[x.qp]||''}</span>${esc(x.q)}</div>`;}
+  else if(q.t==='k'){h+=`<div class="qk">${qdHtml(q.qd)}</div>`;}
+  else h+=`<div class="qs">${sent(q.q)}</div>`;
+  const lab=o=>q.t==='e0'?esc(W(o).q):q.t==='k0'?esc(W(o).w):esc(o);
+  const en=!['e0','k0','e','p'].includes(q.t);
+  h+=`<div class="opts">`+q.opts.map((o,k)=>`<button class="op${en?' en':''}" id="op${k}" onclick="pick(${k})"><span class="n">${k+1}</span>${lab(o)}</button>`).join('')+`</div><button class="skip" id="skp" onclick="pick(-1)">모르겠어요</button><div id="fb"></div></div>`;
   app().innerHTML=h;window.scrollTo(0,0);
 }
 function pick(k){
@@ -95,19 +129,20 @@ function pick(k){
   const right=k===q.ok;ans[cur]=right?1:0;
   document.querySelectorAll('.op').forEach(b=>b.disabled=true);$('#skp').style.display='none';
   $('#op'+q.ok).classList.add('good');if(k>=0&&!right)$('#op'+k).classList.add('bad');
-  if(q.t===1||!right)say(x.w);
-  $('#fb').innerHTML=`<div class="fb"><div class="v ${right?'o':'x'}">${right?'정답!':(k<0?'괜찮아요, 이렇게 외워요':'아쉬워요')}</div><div class="ans">${esc(x.w)} <span class="pos">${esc(x.pos)}</span></div><div>${esc(x.m)}</div></div><button class="btn y" onclick="next()">${cur+1<Q.length?'다음 문제 ▶':'결과 보기 ▶'}</button>`;
+  if((q.t!=='e'&&q.t!=='e0')||!right)say(x.w);
+  const extra=q.x?`<div class="xp">${esc(q.x)}</div>`:'';
+  $('#fb').innerHTML=`<div class="fb"><div class="v ${right?'o':'x'}">${right?'정답!':(k<0?'괜찮아요, 이렇게 외워요':'아쉬워요')}</div><div class="ans">${esc(x.w)} <span class="pos">${esc(x.pos)}</span></div><div>${esc(x.m)}</div>${extra}</div><button class="btn y" onclick="next()">${cur+1<Q.length?'다음 문제 ▶':'결과 보기 ▶'}</button>`;
 }
 function next(){cur++;if(cur<Q.length)showQ();else result();}
 function result(){
   const tot=Q.length,ok=ans.filter(a=>a===1).length,sc=Math.round(ok/tot*100);
   const key=CFG.key+(MODE==='day'?'Day':'Set'),done=ls(key)||{};if(!RETRY){done[N]=Math.max(done[N]||0,sc);ls(key,done);}
   const msg=sc===100?'완벽해요! 이 Day는 졸업':sc>=90?'거의 다 외웠어요':sc>=70?'좋아요, 틀린 단어만 한 번 더':sc>=50?'절반 넘었어요, 다시 풀면 금방 올라가요':'괜찮아요, 단어 목록 보고 다시 도전!';
-  const wrong=Q.filter((q,k)=>ans[k]!==1).map(q=>W(q.i));
+  const wrong=[...new Set(Q.filter((q,k)=>ans[k]!==1).map(q=>q.i))].map(i=>W(i));
   let h=`<span class="pill">${label()} 결과</span><div class="score">${tot}문제 중 ${ok}개 맞힘</div><div class="big">${sc}점</div><div class="msg">${msg}</div>`;
   h+=`<div class="box">블로그 글 댓글에 <b>「${label()} 완료, ${sc}점」</b>을 남겨 주세요. 매일 기록이 쌓이면 ${CFG.days}일 뒤 ${CFG.goal}가 내 것이 됩니다.</div>`;
   if(wrong.length){h+=`<h3>틀린 단어 ${wrong.length}개</h3>`+wrong.map(x=>`<div class="wl"><div><div class="w">${esc(x.w)} <span class="pos">${esc(x.pos)}</span></div><div class="m">${esc(x.m)}</div></div><button onclick="say('${x.w.replace(/'/g,"\\'")}')">발음 ▶</button></div>`).join('');
-    h+=`<button class="btn y" onclick="retryWrong()">틀린 단어만 다시 풀기</button>`;}
+    h+=`<button class="btn y" onclick="retryWrong()">${HARD?'틀린 문제만 다시 풀기':'틀린 단어만 다시 풀기'}</button>`;}
   h+=`<button class="btn ${wrong.length?'g':'y'}" onclick="start()">다시 풀기 (새 문제)</button>`;
   h+=`<a class="btn g" href="${esc(blogBack())}">블로그로 돌아가기</a>`;
   if(MODE==='day'){h+=`<div class="row2">${N>1?`<a class="btn g" href="${CFG.self}?day=${N-1}">어제 Day ${N-1}</a>`:'<span></span>'}<a class="btn g" href="${HUB}">전체 Day 보기</a></div>`;
@@ -116,7 +151,9 @@ function result(){
   else h+=`<a class="btn g" href="${HUB}">전체 Day·세트 보기</a>`;
   app().innerHTML=h+foot();window.scrollTo(0,0);
 }
-function retryWrong(){RETRY=true;const ids=Q.filter((q,k)=>ans[k]!==1).map(q=>q.i);Q=shuf(ids).map(i=>{const x=W(i),tri=x.dx[Math.floor(Math.random()*x.dx.length)],opts=shuf([i,...tri]);return {i,t:0,opts,ok:opts.indexOf(i)}});cur=0;ans=[];showQ();}
+// 다시 풀기: 이전 방식 문항은 이전처럼 뜻 고르기로 다시, 검수본 문항은 같은 문항을 보기 순서만 바꿔서
+function retryWrong(){RETRY=true;const W2=Q.filter((q,k)=>ans[k]!==1);
+  Q=shuf(W2).map(q=>{if(q.t==='e0'||q.t==='k0')return oldItem(q.i,0);const o=shuf(q.opts.map((v,k)=>({v,ok:k===q.ok})));return Object.assign({},q,{opts:o.map(z=>z.v),ok:o.findIndex(z=>z.ok)})});cur=0;ans=[];showQ();}
 function foot(){return `<div class="ft">${CFG.foot}<br>곽승범 원장 · 유튜브 영어 혁명</div>`}
 init();
 </script></body></html>
