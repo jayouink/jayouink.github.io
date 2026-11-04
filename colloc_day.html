@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>콜로케이션 50일 챌린지 | Day 테스트 자동 채점</title>
+<meta name="description" content="영어 필수 콜로케이션 500, 하루 10개 50일 챌린지. Day별 10문제(짝 고르기·뜻 고르기·예문 빈칸), 5일마다 누적 20문제. 바로 채점, 틀린 표현 정리. 곽승범 원장">
+<meta property="og:type" content="website"><meta property="og:title" content="콜로케이션 50일 챌린지, 오늘 Day 테스트">
+<meta property="og:description" content="영어 짝꿍 표현 하루 10개 · 10문제 자동 채점 · 예문으로 확인 · 틀린 표현 정리">
+<meta property="og:image" content="https://jayouink.github.io/og_colloc.png"><meta property="og:url" content="https://jayouink.github.io/colloc_day.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent} body{margin:0;background:#1b2340;color:#fff;font-family:Pretendard,system-ui,sans-serif}
+.wrap{max-width:520px;margin:0 auto;padding:22px 18px 44px;min-height:100vh}
+.pill{display:inline-block;background:#FFD54A;color:#111;font-weight:800;font-size:14px;padding:5px 12px;border-radius:20px}
+h1{font-size:30px;line-height:1.3;margin:12px 0 6px;font-weight:900} .sub{color:#aab4d4;font-size:16px;line-height:1.6}
+.box{background:#26305a;border-radius:16px;padding:16px;margin-top:16px;font-size:15.5px;line-height:1.7;color:#dfe4f5} .box b{color:#fff}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:17px;font-size:18px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:12px;text-align:center;text-decoration:none}
+.btn.y{background:#FFD54A;color:#111} .btn.g{background:#26305a;color:#fff} .btn.o{background:transparent;color:#FFD54A;border:2px solid #FFD54A}
+.prog{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:800;color:#cfd6ee;margin-top:16px}
+.bar{height:8px;background:#2a3462;border-radius:5px;margin-top:8px;overflow:hidden} .bar i{display:block;height:100%;background:#FFD54A;border-radius:5px;transition:width .25s}
+.card{background:#fff;color:#1b2340;border-radius:18px;padding:22px 16px 18px;margin-top:14px}
+.qt{font-size:14px;color:#6b7290;font-weight:800} .tag{display:inline-block;font-size:13px;font-weight:800;color:#2f5a8f;background:#e3ecff;border-radius:10px;padding:3px 9px;margin-right:6px}
+.qk{font-size:22px;font-weight:800;margin:12px 0 4px;line-height:1.4;color:#33406e}
+.qw{font-size:32px;font-weight:900;margin:8px 0 4px;letter-spacing:-.3px;word-break:break-word;line-height:1.3}
+.qs{font-size:22px;font-weight:800;margin:12px 0 6px;line-height:1.5;word-break:break-word} .qs u{color:#c45a00;text-decoration:none}
+.qsk{font-size:16px;color:#5b6385;line-height:1.55}
+.spk{border:0;background:#eef1fa;color:#1b2340;border-radius:20px;padding:8px 14px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:6px}
+.opts{margin-top:16px;display:grid;gap:10px}
+.op{border:2px solid #d9dceb;background:#f6f7fb;border-radius:14px;padding:15px 14px;font-size:19px;font-weight:700;cursor:pointer;color:#1b2340;font-family:inherit;text-align:left;line-height:1.4}
+.op:disabled{cursor:default} .op.good{border-color:#1fa968;background:#dff7ea;color:#0d6e41} .op.bad{border-color:#e0443e;background:#fde6e4;color:#b3261e}
+.op .n{display:inline-block;width:26px;color:#8a93b8;font-weight:900}
+.skip{background:none;border:0;color:#6b7290;font-family:inherit;font-size:16px;font-weight:800;margin-top:14px;cursor:pointer;text-decoration:underline;padding:6px 0}
+.fb{margin-top:14px;border-top:1px solid #e3e5f0;padding-top:12px;font-size:16px;line-height:1.6}
+.fb .v{font-size:19px;font-weight:900} .fb .v.o{color:#1fa968} .fb .v.x{color:#e0443e} .fb .ans{font-size:20px;font-weight:900;margin-top:4px} .fb .ex{color:#33406e;margin-top:6px}
+.score{font-size:17px;font-weight:800;margin-top:14px;color:#cfd6ee} .big{font-size:56px;font-weight:900;margin:4px 0 2px;color:#FFD54A} .msg{font-size:21px;font-weight:900}
+h3{font-size:18px;margin:26px 0 8px;color:#FFD54A}
+.wl{background:#26305a;border-radius:14px;padding:12px 14px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.wl .w{font-size:19px;font-weight:900} .wl .m{font-size:15px;color:#dfe4f5;margin-top:3px;line-height:1.5} .wl button{flex:none;border:0;background:#33407a;color:#fff;border-radius:16px;padding:7px 11px;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer}
+.tbl{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px} .tbl td{padding:9px 4px;border-bottom:1px solid #34407a;vertical-align:top;line-height:1.45} .tbl td.e{font-weight:900;font-size:16.5px} .tbl td.x{color:#aab4d4;font-size:13.5px}
+.ft{text-align:center;color:#7d87ad;font-size:13px;margin-top:28px;line-height:1.7}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px} .row2 .btn{margin-top:10px;font-size:16px;padding:15px 8px}
+</style></head>
+<body><div class="wrap" id="app"><p class="sub">불러오는 중...</p></div>
+<script>
+// 문항은 colloc_data.json 에 Day·세트별로 고정되어 있음(실행 중 문항·보기 생성 없음, 보기 순서도 고정).
+const CFG={"key":"co","data":"colloc_data.json","posts":"colloc_posts.json","hub":"colloc.html","self":"colloc_day.html","cat":"https://blog.naver.com/PostList.naver?blogId=jayouink2&categoryNo=32","days":50,"perDay":10,"setDays":5,"name":"콜로케이션","series":"콜로케이션 50일 챌린지","goal":"영어 필수 콜로케이션 500개","foot":"영어 필수 콜로케이션 500 · 블로그 무료 PDF Day 1~50과 같은 구성","time":"오전 10시 30분","v":3};
+const S=CFG.setDays;
+let D=null,POSTS={days:{},sets:{},cat:CFG.cat},MODE='day',N=1,Q=[],cur=0,ans=[],RETRY=false;
+const $=s=>document.querySelector(s),app=()=>$('#app');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function ls(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||'null');localStorage.setItem(k,JSON.stringify(v));}catch(e){return null}}
+let VOICE=null;function pickVoice(){try{const vs=speechSynthesis.getVoices();VOICE=vs.find(v=>v.lang==='en-US'&&/Samantha|Google US|Aria|Jenny|Zira/i.test(v.name))||vs.find(v=>v.lang==='en-US')||vs.find(v=>/^en/.test(v.lang))||null;}catch(e){}}
+try{speechSynthesis.onvoiceschanged=pickVoice;pickVoice();}catch(e){}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(VOICE)u.voice=VOICE;u.rate=.85;speechSynthesis.speak(u);}catch(e){}}
+function IT(no){return D.items[no-1]}
+function blogDay(d){return (POSTS.days&&POSTS.days[d])||POSTS.cat||CFG.cat}
+function blogBack(){return MODE==='day'?blogDay(N):((POSTS.sets&&POSTS.sets[N])||blogDay(N*S))}
+function label(){return MODE==='day'?`Day ${N}`:`누적 세트 ${N}`}
+async function init(){
+  const p=new URLSearchParams(location.search);
+  if(p.get('set')){MODE='set';N=Math.min(CFG.days/S,Math.max(1,parseInt(p.get('set'))||1));}else{MODE='day';N=Math.min(CFG.days,Math.max(1,parseInt(p.get('day'))||1));}
+  try{const [a,b]=await Promise.all([fetch(CFG.data+'?v='+CFG.v).then(r=>r.json()),fetch(CFG.posts+'?t='+Date.now()).then(r=>r.json()).catch(()=>null)]);D=a;if(b)POSTS=b;}catch(e){app().innerHTML='<p class="sub">데이터를 불러오지 못했어요. 새로고침해 주세요.</p>';return}
+  document.title=`${CFG.name} ${label()} 테스트 | ${CFG.series}`;home();
+}
+function qset(){return MODE==='day'?D.dayQ[N]:D.setQ[N]}
+function home(){
+  const qs=qset(),done=ls(CFG.key+(MODE==='day'?'Day':'Set'))||{},best=done[N];
+  const dd=MODE==='day'?D.days[N-1]:null;
+  const range=MODE==='day'?'':` (Day ${(N-1)*S+1}~${N*S})`;
+  let h=`<span class="pill">${CFG.series}</span><h1>${CFG.name} ${label()}${range}<br>${qs.length}문제 자동 채점</h1>`;
+  if(dd)h+=`<p class="sub"><b style="color:#fff">${esc(dd.t)}</b><br>${esc(dd.sub)}</p>`;
+  h+=`<p class="sub">${MODE==='day'?`오늘의 짝꿍 표현 ${CFG.perDay}개로`:`Day ${(N-1)*S+1}~${N*S}의 ${CFG.perDay*S}개 표현에서`} 짝 고르기, 뜻 고르기, 예문 빈칸 문제가 나와요. 누르면 바로 정답과 예문을 보여 드려요.</p>
+  ${best!=null?`<div class="box">지난 기록: <b>${best}점</b> 완료</div>`:''}
+  <button class="btn y" onclick="start()">테스트 시작 ▶</button>`;
+  if(MODE==='day'){h+=`<button class="btn g" onclick="toggleList()">오늘의 표현 ${CFG.perDay}개 먼저 보기</button><div id="list"></div>`;
+    if(N>1)h+=`<a class="btn o" href="${CFG.self}?day=${N-1}">어제 Day ${N-1} 다시 풀기</a>`;}
+  h+=`<a class="btn g" href="${CFG.hub}">전체 Day·세트 보기</a><a class="btn g" href="${esc(blogBack())}">블로그로 돌아가기</a>`+foot();
+  app().innerHTML=h;window.scrollTo(0,0);
+}
+function toggleList(){const el=$('#list');if(el.innerHTML){el.innerHTML='';return}
+  el.innerHTML='<div class="box"><table class="tbl">'+D.items.filter(x=>x.day===N).map(x=>`<tr><td class="e">${esc(x.en)}</td><td>${esc(x.ko)}<div class="x">${esc(x.ex)}</div></td></tr>`).join('')+'</table></div>';}
+function start(){RETRY=false;Q=qset().slice();cur=0;ans=[];showQ();}
+function showQ(){
+  const q=Q[cur],tot=Q.length;
+  let h=`<div class="prog"><span>${label()} · ${cur+1} / ${tot}</span><span>맞힌 수 ${ans.filter(a=>a===1).length}</span></div><div class="bar"><i style="width:${cur/tot*100}%"></i></div><div class="card">`;
+  if(q.t==='A')h+=`<div class="qt"><span class="tag">짝 고르기</span>빈칸에 맞는 짝은?</div><div class="qk">${esc(q.prompt)}</div><div class="qw">${esc(q.tpl)}</div>`;
+  else if(q.t==='B')h+=`<div class="qt"><span class="tag">뜻 고르기</span>이 표현의 뜻은?</div><div class="qw">${esc(q.prompt)}</div><button class="spk" onclick="say('${q.prompt.replace(/'/g,"\\'")}')">발음 듣기 ▶</button>`;
+  else h+=`<div class="qt"><span class="tag">예문 빈칸</span>우리말 뜻에 맞게 빈칸을 채우면?</div><div class="qs">${esc(q.prompt).replace('_____','<u>_____</u>')}</div><div class="qsk">${esc(q.ko)}</div>`;
+  h+=`<div class="opts">`+q.opts.map((o,k)=>`<button class="op" id="op${k}" onclick="pick(${k})"><span class="n">${k+1}</span>${esc(o)}</button>`).join('')+`</div><button class="skip" id="skp" onclick="pick(-1)">모르겠어요</button><div id="fb"></div></div>`;
+  app().innerHTML=h;window.scrollTo(0,0);
+}
+function pick(k){
+  const q=Q[cur],x=IT(q.no);if(ans[cur]!==undefined)return;
+  const right=k===q.ok;ans[cur]=right?1:0;
+  document.querySelectorAll('.op').forEach(b=>b.disabled=true);$('#skp').style.display='none';
+  $('#op'+q.ok).classList.add('good');if(k>=0&&!right)$('#op'+k).classList.add('bad');
+  say(x.en);
+  $('#fb').innerHTML=`<div class="fb"><div class="v ${right?'o':'x'}">${right?'정답!':(k<0?'괜찮아요, 이렇게 외워요':'아쉬워요')}</div><div class="ans">${esc(x.en)}</div><div>${esc(x.ko)}</div><div class="ex">${esc(x.ex)}<br>${esc(x.exk)}</div></div><button class="btn y" onclick="next()">${cur+1<Q.length?'다음 문제 ▶':'결과 보기 ▶'}</button>`;
+}
+function next(){cur++;if(cur<Q.length)showQ();else result();}
+function result(){
+  const tot=Q.length,ok=ans.filter(a=>a===1).length,sc=Math.round(ok/tot*100);
+  const key=CFG.key+(MODE==='day'?'Day':'Set'),done=ls(key)||{};if(!RETRY){done[N]=Math.max(done[N]||0,sc);ls(key,done);}
+  const msg=sc===100?'완벽해요! 이 Day는 졸업':sc>=90?'거의 다 익혔어요':sc>=70?'좋아요, 틀린 표현만 한 번 더':sc>=50?'절반 넘었어요, 다시 풀면 금방 올라가요':'괜찮아요, 표현 목록 보고 다시 도전!';
+  const wrong=[...new Set(Q.filter((q,k)=>ans[k]!==1).map(q=>q.no))].map(IT);
+  let h=`<span class="pill">${label()} 결과</span><div class="score">${tot}문제 중 ${ok}개 맞힘</div><div class="big">${sc}점</div><div class="msg">${msg}</div>`;
+  h+=`<div class="box">블로그 글 댓글에 <b>「${label()} 완료, ${sc}점」</b>을 남겨 주세요. 매일 기록이 쌓이면 ${CFG.days}일 뒤 ${CFG.goal}가 내 것이 됩니다.</div>`;
+  if(wrong.length){h+=`<h3>틀린 표현 ${wrong.length}개</h3>`+wrong.map(x=>`<div class="wl"><div><div class="w">${esc(x.en)}</div><div class="m">${esc(x.ko)}<br>${esc(x.ex)}</div></div><button onclick="say('${x.en.replace(/'/g,"\\'")}')">발음 ▶</button></div>`).join('');
+    h+=`<button class="btn y" onclick="retryWrong()">틀린 문제만 다시 풀기</button>`;}
+  h+=`<button class="btn ${wrong.length?'g':'y'}" onclick="start()">처음부터 다시 풀기</button>`;
+  h+=`<a class="btn g" href="${esc(blogBack())}">블로그로 돌아가기</a>`;
+  if(MODE==='day'){h+=`<div class="row2">${N>1?`<a class="btn g" href="${CFG.self}?day=${N-1}">어제 Day ${N-1}</a>`:'<span></span>'}<a class="btn g" href="${CFG.hub}">전체 Day 보기</a></div>`;
+    if(N%S===0)h+=`<a class="btn o" href="${CFG.self}?set=${N/S}">누적 세트 ${N/S} (Day ${N-S+1}~${N}, 20문제) 도전</a>`;
+    if(N<CFG.days)h+=`<div class="box">다음 <b>Day ${N+1}</b>은 블로그에 ${CFG.time}에 올라와요. 이웃 추가하면 새 Day 알림을 받을 수 있어요.</div>`;}
+  else h+=`<a class="btn g" href="${CFG.hub}">전체 Day·세트 보기</a>`;
+  app().innerHTML=h+foot();window.scrollTo(0,0);
+}
+function retryWrong(){const qs=Q.filter((q,k)=>ans[k]!==1);RETRY=true;Q=qs;cur=0;ans=[];showQ();}
+function foot(){return `<div class="ft">${CFG.foot}<br>곽승범 원장 · 유튜브 영어 혁명</div>`}
+init();
+</script></body></html>
