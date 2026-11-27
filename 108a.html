@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="format-detection" content="telephone=no">
+<title>[시험 중] 1권 8단원 소리</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#F7F3EA;color:#1F2430;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;line-height:1.45;word-break:keep-all}
+main{max-width:640px;margin:0 auto;padding:20px 18px 48px}
+.test{display:inline-block;background:#C62828;color:#fff;font-weight:800;font-size:20px;padding:6px 14px;border-radius:10px}
+h1{font-size:32px;margin:14px 0 6px;font-weight:800}
+.lead{font-size:21px;margin:0 0 22px;color:#3a3f4b}
+.card{background:#fff;border:2px solid #E4DDCC;border-radius:18px;padding:18px;margin:0 0 18px}
+.card h2{font-size:26px;margin:0 0 4px;font-weight:800}
+.len{font-size:19px;color:#6b6659;margin:0 0 14px}
+.play{display:block;width:100%;min-height:76px;font-size:27px;font-weight:800;border:0;border-radius:14px;background:#1F2430;color:#fff;cursor:pointer;padding:12px}
+.play.on{background:#C62828}
+audio{width:100%;margin-top:14px;height:54px}
+.note{font-size:18px;color:#6b6659;margin-top:26px}
+</style>
+</head>
+<body>
+<main>
+<span class="test">시험 중</span>
+<h1>1권 8단원 소리</h1>
+<p class="lead">아래 큰 단추를 누르면 바로 소리가 나와요.</p>
+<section class="card">
+<h2>A 오늘의 장면</h2>
+<p class="len">약 1분</p>
+<button class="play" type="button" data-for="au-a">▶ 듣기</button>
+<audio id="au-a" controls preload="none" src="v1u08a.mp3"></audio>
+</section>
+<section class="card">
+<h2>B 따라 말하기 · 대답하기</h2>
+<p class="len">약 2분 20초</p>
+<button class="play" type="button" data-for="au-b">▶ 듣기</button>
+<audio id="au-b" controls preload="none" src="v1u08b.mp3"></audio>
+</section>
+<section class="card">
+<h2>C 역할 바꿔 말하기</h2>
+<p class="len">약 1분</p>
+<button class="play" type="button" data-for="au-c">▶ 듣기</button>
+<audio id="au-c" controls preload="none" src="v1u08c.mp3"></audio>
+</section>
+<p class="note">이 쪽은 소리 재생 시험용입니다.</p>
+</main>
+<script>
+(function(){
+var bs=document.querySelectorAll('.play');
+function label(){for(var i=0;i<bs.length;i++){var a=document.getElementById(bs[i].getAttribute('data-for'));var on=!a.paused&&!a.ended;bs[i].textContent=on?'❚❚ 멈춤':'▶ 듣기';bs[i].className=on?'play on':'play';}}
+for(var i=0;i<bs.length;i++){(function(b){var a=document.getElementById(b.getAttribute('data-for'));
+b.addEventListener('click',function(){if(a.paused){var all=document.querySelectorAll('audio');for(var k=0;k<all.length;k++){if(all[k]!==a)all[k].pause();}var p=a.play();if(p&&p.catch)p.catch(function(){});}else{a.pause();}});
+a.addEventListener('play',function(){var all=document.querySelectorAll('audio');for(var k=0;k<all.length;k++){if(all[k]!==a)all[k].pause();}label();});
+a.addEventListener('pause',label);a.addEventListener('ended',label);})(bs[i]);}
+})();
+</script>
+</body>
+</html>
